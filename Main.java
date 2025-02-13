@@ -1,13 +1,18 @@
 import Database.DB;
 import GUI.GUI;
 
-import java.sql.Connection;
+import javax.swing.*;
 import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
-        Connection conn = DB.getConnection();
-        System.out.println(conn.getMetaData().getUserName());
+        try {
+            DB.setConnection();
+            JOptionPane.showMessageDialog(null, "Connessione riuscita","MySQL Success",JOptionPane.INFORMATION_MESSAGE);
+           } catch (RuntimeException e) {
+            JOptionPane.showMessageDialog(null, "Errore nella connessione al server","MySQL Server Error",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         new GUI();
     }
 }

@@ -1,34 +1,38 @@
 package GUI;
 
+import GUI.Piloti.MenuPiloti;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
 
-public class GUI extends JFrame {
+public class MenuProgramma extends JFrame {
     private JPanel panel;
-    private JButton menuQueryButton;
-    private JButton menuProgrammaButton;
+    private JButton pilotiButton;
+    private JButton scuderieButton;
+    private JButton sponsorButton;
+    private JButton gareButton;
+    private JButton tornaIndietroButton;
 
-    public GUI() {
+    public MenuProgramma() {
         setTitle("Formula 1");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(250, 200);
+        setSize(200, 400);
         setLocationRelativeTo(null);
         setContentPane(panel);
         setVisible(true);
-        menuQueryButton.addActionListener(new ActionListener() {
+        tornaIndietroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new MenuQuery();
+                new GUI();
             }
         });
-        menuProgrammaButton.addActionListener(new ActionListener() {
+        pilotiButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new MenuProgramma();
+                new MenuPiloti();
             }
         });
     }

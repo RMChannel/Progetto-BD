@@ -8,9 +8,14 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class DB {
-    public static Connection getConnection()
+    public static Connection conn = null;
+
+    public static Connection getConn() {
+        return conn;
+    }
+
+    public static void setConnection()
     {
-        Connection con;
         String driver ="com.mysql.cj.jdbc.Driver";
         String username = "ProjectDB_silveraway";
         String password;
@@ -26,13 +31,12 @@ public class DB {
 
         try {
         	Class.forName(driver);
-            con = DriverManager.getConnection(url,username,password);
+            conn = DriverManager.getConnection(url,username,password);
 
         }catch (ClassNotFoundException e) {
 			throw new DriverNotFound();
 		} catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return con;
     }
 }
