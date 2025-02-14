@@ -1,7 +1,8 @@
-package GUI.Scuderie;
+package GUI.Affiliazione;
 
 import Database.DB;
 import GUI.MenuProgramma;
+import GUI.Scuderie.MenuScuderie;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

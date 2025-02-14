@@ -1,5 +1,6 @@
 package GUI;
 
+import GUI.Affiliazione.MenuAffiliazione;
 import GUI.Piloti.MenuPiloti;
 import GUI.Scuderie.MenuScuderie;
 
@@ -14,6 +15,7 @@ public class MenuProgramma extends JFrame {
     private JButton sponsorButton;
     private JButton gareButton;
     private JButton tornaIndietroButton;
+    private JButton affiliazioneButton;
 
     public MenuProgramma() {
         setTitle("Formula 1");
@@ -41,6 +43,13 @@ public class MenuProgramma extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 dispose();
                 new MenuScuderie();
+            }
+        });
+        affiliazioneButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new MenuAffiliazione();
             }
         });
     }

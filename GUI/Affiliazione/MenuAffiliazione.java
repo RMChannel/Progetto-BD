@@ -1,4 +1,4 @@
-package GUI.Scuderie;
+package GUI.Affiliazione;
 
 import GUI.MenuProgramma;
 
@@ -6,15 +6,15 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MenuScuderie extends JFrame {
+public class MenuAffiliazione extends JFrame {
     private JPanel panel;
     private JButton tornaIndietroButton;
-    private JButton creaUnaScuderiaButton;
-    private JButton rimuoviUnaScuderiaButton;
-    private JButton visualizzaLeScuderieButton;
+    private JButton creaAffiliazioneButton;
+    private JButton rimuoviAffiliazioneButton;
+    private JButton visualizzaLeAffiliazioniButton;
 
-    public MenuScuderie() {
-        setTitle("Menu Scuderie");
+    public MenuAffiliazione() {
+        setTitle("Affiliazione");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(300, 300);
         setLocationRelativeTo(null);
@@ -27,25 +27,24 @@ public class MenuScuderie extends JFrame {
                 new MenuProgramma();
             }
         });
-        visualizzaLeScuderieButton.addActionListener(new ActionListener() {
+        creaAffiliazioneButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new VisualizzaScuderie();
+                new CreaAffiliazione();
             }
         });
-        creaUnaScuderiaButton.addActionListener(new ActionListener() {
+        visualizzaLeAffiliazioniButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new CreaScuderia();
+                new VisualizzaAffiliazioni();
             }
         });
-        rimuoviUnaScuderiaButton.addActionListener(new ActionListener() {
+        rimuoviAffiliazioneButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
-                new RimuoviScuderia();
+
             }
         });
     }

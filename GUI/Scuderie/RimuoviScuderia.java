@@ -43,6 +43,7 @@ public class RimuoviScuderia extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     Connection conn= DB.getConn();
+                    conn.createStatement().executeUpdate("delete from Affiliazione where Scuderia='"+comboBox1.getSelectedItem()+"'");
                     conn.createStatement().executeUpdate("delete from Scuderia where Nome='"+comboBox1.getSelectedItem()+"'");
                     JOptionPane.showMessageDialog(null,"Scuderia rimossa con successo","Rimozione Scuderia avvenuta",JOptionPane.INFORMATION_MESSAGE);
                 } catch (SQLException e1) {
