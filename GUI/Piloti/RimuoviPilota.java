@@ -47,6 +47,7 @@ public class RimuoviPilota extends JFrame {
                     while(rs.next()) {
                         int nPilota=rs.getInt(1);
                         if((Integer.toString(nPilota)+" "+rs.getString(2)).equals(comboBox1.getSelectedItem().toString())) {
+                            conn.createStatement().executeUpdate("delete from Affiliazione where Pilota="+nPilota);
                             conn.createStatement().executeUpdate("delete from Pilota where Numero_Pilota="+nPilota);
                             dispose();
                             JOptionPane.showMessageDialog(null,"Pilota rimosso con successo","Rimozione Avvenuta",JOptionPane.INFORMATION_MESSAGE);

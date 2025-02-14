@@ -1,6 +1,7 @@
 package GUI;
 
 import GUI.Piloti.MenuPiloti;
+import GUI.Scuderie.MenuScuderie;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -33,6 +34,13 @@ public class MenuProgramma extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 dispose();
                 new MenuPiloti();
+            }
+        });
+        scuderieButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new MenuScuderie();
             }
         });
     }
