@@ -1,8 +1,10 @@
 package GUI;
 
 import GUI.Affiliazione.MenuAffiliazione;
+import GUI.Gare.MenuGare;
 import GUI.Piloti.MenuPiloti;
 import GUI.Scuderie.MenuScuderie;
+import GUI.Sponsor.MenuSponsor;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -50,6 +52,20 @@ public class MenuProgramma extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 dispose();
                 new MenuAffiliazione();
+            }
+        });
+        sponsorButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new MenuSponsor();
+            }
+        });
+        gareButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new MenuGare();
             }
         });
     }
