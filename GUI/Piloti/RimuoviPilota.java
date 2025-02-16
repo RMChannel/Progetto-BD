@@ -25,6 +25,12 @@ public class RimuoviPilota extends JFrame {
             Connection conn= DB.getConn();
             ResultSet rs=conn.createStatement().executeQuery("select * from Pilota");
             while(rs.next()) comboBox1.addItem(Integer.toString(rs.getInt(1))+" "+rs.getString(2));
+            if(comboBox1.getItemCount()==0) {
+                JOptionPane.showMessageDialog(null, "Nessun pilota disponibile","Errore nessun pilota",JOptionPane.ERROR_MESSAGE);
+                dispose();
+                new MenuPiloti();
+                return;
+            }
         } catch(SQLException e) {
             JOptionPane.showMessageDialog(null, "Non è stato possibile recuperare i piloti dal database, controlla e riprova","Errore MySQL recupero pilota",JOptionPane.ERROR_MESSAGE);
             return;

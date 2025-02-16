@@ -27,6 +27,12 @@ public class RimuoviSponsor extends JFrame {
             while(rs.next()){
                 comboBox1.addItem(rs.getString(1)+" "+rs.getString(2));
             }
+            if(comboBox1.getSelectedIndex()==0){
+                JOptionPane.showMessageDialog(null,"Nessuno Sponsor disponibile","Errore Sponsor vuoto",JOptionPane.ERROR_MESSAGE);
+                dispose();
+                new MenuSponsor();
+                return;
+            }
         } catch (SQLException e) {
             System.err.println(e);
             JOptionPane.showMessageDialog(null, "Errore nel recupero dati dal Database","Errore SQL Sponsor",JOptionPane.ERROR_MESSAGE);

@@ -22,6 +22,12 @@ public class RimuoviScuderia extends JFrame {
             Connection conn= DB.getConn();
             ResultSet rs=conn.createStatement().executeQuery("select * from Scuderia");
             while(rs.next()) comboBox1.addItem(rs.getString(1));
+            if(comboBox1.getSelectedIndex()==0) {
+                JOptionPane.showMessageDialog(null, "Nessuna scuderia è disponbile","Errore nessuna Scuderia",JOptionPane.ERROR_MESSAGE);
+                dispose();
+                new MenuScuderie();
+                return;
+            }
         } catch(SQLException e) {
             JOptionPane.showMessageDialog(null, "Non è stato possibile recuperare le scuderie dal database, controlla e riprova","Errore MySQL recupero scuderia",JOptionPane.ERROR_MESSAGE);
             return;

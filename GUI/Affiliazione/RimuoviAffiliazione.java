@@ -28,6 +28,12 @@ public class RimuoviAffiliazione extends JFrame {
             while(rs.next()){
                 comboBox1.addItem(rs.getString(2)+" con Pilota: "+rs.getInt(1));
             }
+            if(comboBox1.getItemCount()==0) {
+                JOptionPane.showMessageDialog(null, "Nessuna affiliazione disponibile","Errore nessuna affiliazione",JOptionPane.ERROR_MESSAGE);
+                dispose();
+                new MenuAffiliazione();
+                return;
+            }
         } catch (SQLException e) {
             System.err.println(e);
             JOptionPane.showMessageDialog(null, "Errore nel recupero dei dati delle affiliazioni","Errore SQL Affiliazioni",JOptionPane.ERROR_MESSAGE);
