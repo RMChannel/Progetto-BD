@@ -50,6 +50,7 @@ public class CreaAffiliazione extends JFrame {
                     return;
                 }
                 int nPilota=0, durata=0;
+                String cognome="";
                 try {
                     durata = Integer.parseInt(durataTextField.getText());
                 } catch (NumberFormatException e1) {
@@ -61,6 +62,7 @@ public class CreaAffiliazione extends JFrame {
                     ResultSet rs=conn.createStatement().executeQuery("select * from Pilota");
                     while(rs.next()) {
                         nPilota=rs.getInt(1);
+                        cognome=rs.getString(2);
                         if((Integer.toString(nPilota)+" "+rs.getString(2)).equals(pilotaComboBox.getSelectedItem().toString())) {
                             break;
                         }
@@ -72,7 +74,7 @@ public class CreaAffiliazione extends JFrame {
                             return;
                         }
                     }
-                    DB.getConn().createStatement().executeUpdate("INSERT INTO Affiliazione (Pilota, Scuderia, Durata) VALUES ("+nPilota+",'"+scuderiaComboBox.getSelectedItem().toString()+"',"+durata+")");
+                    DB.getConn().createStatement().executeUpdate("INSERT INTO Affiliazione (Pilota, Scuderia, Durata,Cognome_Pilota) VALUES ("+nPilota+",'"+scuderiaComboBox.getSelectedItem().toString()+"',"+durata+",'"+cognome+"')");
                     JOptionPane.showMessageDialog(null,"Affiliazione creata correttamente","Affiliazione effettuata",JOptionPane.INFORMATION_MESSAGE);
                     dispose();
                     new MenuProgramma();
