@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -27,23 +28,10 @@ public class CreaSponsorizzazione extends JFrame {
         try {
             Connection conn= DB.getConn();
             ResultSet rsPiloti=conn.createStatement().executeQuery("SELECT * FROM Pilota");
-            ResultSet rsSponsorizzazioni=conn.createStatement().executeQuery("SELECT * FROM Sponsorizzazione");
-            ResultSet rsSponsor=conn.createStatement().executeQuery("SELECT * FROM Sponsor");
-            Dictionary<Integer,String> dic=new Hashtable<>();
-            while(rsSponsorizzazioni.next()) {
-                dic.put(rsSponsorizzazioni.getInt(1),rsSponsorizzazioni.getString(2));
-            }
             while (rsPiloti.next()) {
-                if(dic.get(rsPiloti.getInt(1))==null) pilotaComboBox.addItem(rsPiloti.getInt(1)+" "+rsPiloti.getString(2));
+                pilotaComboBox.addItem(rsPiloti.getInt(1)+" "+rsPiloti.getString(2));
             }
-            Dictionary<String,Integer> dic2=new Hashtable<>();
-            rsSponsorizzazioni=conn.createStatement().executeQuery("SELECT * FROM Sponsorizzazione");
-            while(rsSponsorizzazioni.next()) {
-                dic2.put(rsSponsorizzazioni.getString(2),rsSponsorizzazioni.getInt(1));
-            }
-            while(rsSponsor.next()) {
-                if(dic2.get(rsSponsor.getString(1))==null) sponsorComboBox.addItem(rsSponsor.getString(1)+" "+rsSponsor.getString(2));
-            }
+            updateSponsor();
         } catch (SQLException e) {
             System.err.println(e);
             JOptionPane.showMessageDialog(null, "Errore nel recupero dati dal database","Error SQL Sponsorizzazione",JOptionPane.ERROR_MESSAGE);
@@ -70,10 +58,12 @@ public class CreaSponsorizzazione extends JFrame {
                     ResultSet rsPiloti=conn.createStatement().executeQuery("SELECT * FROM Pilota");
                     ResultSet rsSponsor=conn.createStatement().executeQuery("SELECT * FROM Sponsor");
                     int nPilota=0;
+                    String cognomePilota="";
                     String codiceSponsor="";
                     while(rsPiloti.next()) {
                         if((rsPiloti.getInt(1)+" "+rsPiloti.getString(2)).equals(pilotaComboBox.getSelectedItem().toString())) {
                             nPilota=rsPiloti.getInt(1);
+                            cognomePilota=rsPiloti.getString(2);
                             break;
                         }
                     }
@@ -82,7 +72,7 @@ public class CreaSponsorizzazione extends JFrame {
                             codiceSponsor=rsSponsor.getString(1);
                         }
                     }
-                    DB.getConn().createStatement().executeUpdate("INSERT INTO Sponsorizzazione (Pilota,Sponsor) VALUES ("+nPilota+",'"+codiceSponsor+"')");
+                    DB.getConn().createStatement().executeUpdate("INSERT INTO Sponsorizzazione (Pilota,Sponsor,Nome_Pilota) VALUES ("+nPilota+",'"+codiceSponsor+"','"+cognomePilota+"')");
                     JOptionPane.showMessageDialog(null,"Sponsorizzazione creata con successo","Sponsorizzazione avvenuta",JOptionPane.INFORMATION_MESSAGE);
                     dispose();
                     new MenuProgramma();
@@ -93,5 +83,33 @@ public class CreaSponsorizzazione extends JFrame {
                 }
             }
         });
+        sponsorComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateSponsor();
+            }
+        });
+    }
+    private void updateSponsor() {
+        sponsorComboBox.removeAllItems();
+        String actualPilota=pilotaComboBox.getSelectedItem().toString();
+        String[] parts=actualPilota.split(" ");
+        try {
+            Connection conn= DB.getConn();
+            ResultSet rsSponsor=conn.createStatement().executeQuery("SELECT * FROM Sponsor ORDER BY ID_Sponsor");
+            ResultSet rsSponsorizzazione=conn.createStatement().executeQuery("SELECT * FROM Sponsorizzazione where Pilota="+parts[0]+" && Nome_Pilota='"+parts[1]+"'");
+            ArrayList<String> sponsors=new ArrayList<>();
+            while (rsSponsorizzazione.next()) {
+                sponsors.add(rsSponsorizzazione.getString(2));
+            }
+            while (rsSponsor.next()) {
+                if(!sponsors.contains(rsSponsor.getString(1))) {
+                    sponsorComboBox.addItem(rsSponsor.getString(1)+" "+rsSponsor.getString(2));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println(e);
+            JOptionPane.showMessageDialog(null,e.getMessage(),"Errore SQL Sponsorizzazione",JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

@@ -14,6 +14,8 @@ import java.sql.SQLException;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RimuoviSponsorizzazione extends JFrame {
     private JButton tornaIndietroButton;
@@ -65,9 +67,16 @@ public class RimuoviSponsorizzazione extends JFrame {
                 try {
                     Connection conn= DB.getConn();
                     ResultSet rs=conn.createStatement().executeQuery("SELECT * FROM Sponsorizzazione");
+                    Pattern pattern = Pattern.compile("^\\d+");
                     while(rs.next()){
+                        Matcher matcher = pattern.matcher(comboBox1.getSelectedItem().toString());
+                        if(!matcher.find()) {
+                            JOptionPane.showMessageDialog(null,"Errore recupero numero pilota","Errore N Pilota",JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                        int n=Integer.parseInt(matcher.group());
                         if(comboBox1.getSelectedItem().toString().contains(rs.getString(2))) {
-                            conn.createStatement().executeUpdate("delete from Sponsorizzazione where Sponsor='"+rs.getString(2)+"'");
+                            conn.createStatement().executeUpdate("delete from Sponsorizzazione where Sponsor='"+rs.getString(2)+"' && Pilota="+n);
                             JOptionPane.showMessageDialog(null,"Rimozione Sponsorizzazione avvenuta con successo","Rimozione avvenuta",JOptionPane.INFORMATION_MESSAGE);
                             dispose();
                             new MenuProgramma();

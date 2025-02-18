@@ -6,6 +6,8 @@ import GUI.MenuProgramma;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,6 +24,7 @@ public class CreaScuderia extends JFrame {
     private JTextField viaTextField;
     private JTextField CAPTextField;
     private JButton creaScuderiaButton;
+    private JComboBox categoriaComboBox;
 
     public CreaScuderia() {
         setTitle("Crea una Scuderia");
@@ -29,6 +32,16 @@ public class CreaScuderia extends JFrame {
         setContentPane(panel);
         setSize(500, 600);
         setLocationRelativeTo(null);
+        try {
+            Connection conn=DB.getConn();
+            ResultSet rs=conn.createStatement().executeQuery("SELECT * FROM Categoria");
+            while (rs.next()) {
+                categoriaComboBox.addItem(rs.getString(1));
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage(),"Error SQL Scuderia",JOptionPane.ERROR_MESSAGE);
+        }
         setVisible(true);
         tornaIndietroButton.addActionListener(new ActionListener() {
             @Override
@@ -50,11 +63,12 @@ public class CreaScuderia extends JFrame {
                     Date temp= (Date) formatter.parseObject(dataTextField.getText());
                     date=temp.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                 } catch (ParseException pe) {
-                    System.err.println(pe);
+                    JOptionPane.showMessageDialog(null,"La data non è stata scrittoa correttamente, controlla e riprova, ricorda ce il formato è dd/MM/yyyy","Errore formato data",JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
                 try {
-                    String dati ="('"+nomeTextField.getText()+"','"+date.getYear()+"-"+date.getMonthValue()+"-"+date.getDayOfMonth()+"','"+cittaTextField.getText()+"','"+viaTextField.getText()+"','"+CAPTextField.getText()+"')";
-                    DB.getConn().createStatement().executeUpdate("INSERT INTO Scuderia (Nome, Data_entrata, Città, Via, CAP) VALUES "+dati);
+                    String dati ="('"+nomeTextField.getText()+"','"+date.getYear()+"-"+date.getMonthValue()+"-"+date.getDayOfMonth()+"','"+cittaTextField.getText()+"','"+viaTextField.getText()+"','"+CAPTextField.getText()+"','"+categoriaComboBox.getSelectedItem()+"')";
+                    DB.getConn().createStatement().executeUpdate("INSERT INTO Scuderia (Nome, Data_entrata, Città, Via, CAP, ID_Categoria) VALUES "+dati);
                     JOptionPane.showMessageDialog(null,"Scuderia aggiunta con successo", "Scuderia aggiunta", JOptionPane.INFORMATION_MESSAGE);
                 } catch (SQLException e2) {
                     System.err.println(e2);

@@ -1,4 +1,4 @@
-package GUI.Gare;
+package GUI.Categoria;
 
 import GUI.MenuProgramma;
 
@@ -6,17 +6,17 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MenuGare extends JFrame {
+public class MenuCategorie extends JFrame {
     private JButton tornaIndietroButton;
     private JPanel panel1;
-    private JButton creaUnaNuovaGaraButton;
-    private JButton visualizzaTutteLeGareButton;
-    private JButton rimuoviGaraButton;
+    private JButton creaUnaNuovaCategoriaButton;
+    private JButton rimuoviUnaCategoriaButton;
+    private JButton visualizzaLeCategorieDisponibiliButton;
 
-    public MenuGare() {
-        setTitle("Menu Gare");
+    public MenuCategorie() {
+        setTitle("Menu Categorie");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(200, 300);
+        setSize(300, 300);
         setLocationRelativeTo(null);
         setContentPane(panel1);
         setVisible(true);
@@ -27,25 +27,25 @@ public class MenuGare extends JFrame {
                 new MenuProgramma();
             }
         });
-        visualizzaTutteLeGareButton.addActionListener(new ActionListener() {
+        creaUnaNuovaCategoriaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new VisualizzaGare();
+                new CreaCategoria();
             }
         });
-        rimuoviGaraButton.addActionListener(new ActionListener() {
+        rimuoviUnaCategoriaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new RimuoviGara();
+                new RimuoviCategoria();
             }
         });
-        creaUnaNuovaGaraButton.addActionListener(new ActionListener() {
+        visualizzaLeCategorieDisponibiliButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new CreaGara();
+                new VisualizzaCategorie();
             }
         });
     }

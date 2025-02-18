@@ -28,18 +28,19 @@ public class VisualizzaScuderie extends JFrame {
     }
 
     private void createUIComponents() {
-        String[] columnNames = {"Nome","Data Entrata","Città","Via","CAP"};
+        String[] columnNames = {"Nome","Data Entrata","Città","Via","CAP","ID_Categoria"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
         Connection conn= DB.getConn();
         try {
             ResultSet rs=conn.createStatement().executeQuery("SELECT * FROM Scuderia");
             while (rs.next()) {
-                String []row=new String[5];
+                String []row=new String[6];
                 row[0]=rs.getString(1);
                 row[1]=rs.getString(2);
                 row[2]=rs.getString(3);
                 row[3]=rs.getString(4);
                 row[4]=rs.getString(5);
+                row[5]=rs.getString(6);
                 model.addRow(row);
             }
         } catch (SQLException e) {

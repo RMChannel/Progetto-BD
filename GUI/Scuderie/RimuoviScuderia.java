@@ -21,8 +21,8 @@ public class RimuoviScuderia extends JFrame {
         try {
             Connection conn= DB.getConn();
             ResultSet rs=conn.createStatement().executeQuery("select * from Scuderia");
-            while(rs.next()) comboBox1.addItem(rs.getString(1));
-            if(comboBox1.getSelectedIndex()==0) {
+            while(rs.next()) comboBox1.addItem(rs.getString(1)+" "+rs.getString(6));
+            if(comboBox1.getItemCount()==0) {
                 JOptionPane.showMessageDialog(null, "Nessuna scuderia è disponbile","Errore nessuna Scuderia",JOptionPane.ERROR_MESSAGE);
                 dispose();
                 new MenuScuderie();

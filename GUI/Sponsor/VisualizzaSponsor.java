@@ -8,8 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.ArrayList;
 
 public class VisualizzaSponsor extends JFrame {
     private JButton tornaIndietroButton;
@@ -28,18 +28,19 @@ public class VisualizzaSponsor extends JFrame {
     }
 
     private void createUIComponents() {
-        String[] row={"ID Sponsor","Nome","Numero Pilota Sponsorizzato"};
+        String[] row={"ID Sponsor","Nome","Piloti Sponsorizzati"};
         DefaultTableModel model = new DefaultTableModel(row,0);
         table1=new JTable(model);
         try {
             Connection conn= DB.getConn();
-            Dictionary<String,Integer> dictionary=new Hashtable<>();
+            HashMap<String, ArrayList<String>> dictionary = new HashMap<>();
             ResultSet rs=conn.createStatement().executeQuery("select * from Sponsorizzazione");
             while(rs.next()){
-                dictionary.put(rs.getString(2),rs.getInt(1));
+                String sponsor = rs.getString(2);
+                dictionary.putIfAbsent(sponsor, new ArrayList<>());
+                dictionary.get(sponsor).add(rs.getInt(1)+" "+rs.getString(3));
             }
             rs=conn.createStatement().executeQuery("SELECT * FROM Sponsor");
-            System.out.println(dictionary);
             while(rs.next()){
                 String sponsor=rs.getString(1);
                 String[] temp=null;
