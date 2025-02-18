@@ -63,7 +63,7 @@ public class CreaScuderia extends JFrame {
                     Date temp= (Date) formatter.parseObject(dataTextField.getText());
                     date=temp.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                 } catch (ParseException pe) {
-                    JOptionPane.showMessageDialog(null,"La data non è stata scrittoa correttamente, controlla e riprova, ricorda ce il formato è dd/MM/yyyy","Errore formato data",JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"La data non è stata scritto correttamente, controlla e riprova, ricorda ce il formato è dd/MM/yyyy","Errore formato data",JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 try {

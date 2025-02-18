@@ -1,6 +1,7 @@
 package GUI.Categoria;
 
 import Database.DB;
+import GUI.MenuProgramma;
 
 import javax.swing.*;
 import javax.xml.transform.Result;
@@ -43,8 +44,23 @@ public class RimuoviCategoria extends JFrame {
         rimuoviCategoriaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(JOptionPane.showConfirmDialog(null,"Sei sicuro di voler cancellare questa categoria?\nVerranno rimosse tutte le scuderie e gare collegate a questa categoria","Conferma rimozione scuderia",JOptionPane.YES_NO_OPTION)==0) {
-                    System.out.println("Confermo");
+                if(JOptionPane.showConfirmDialog(null,"Sei sicuro di voler cancellare questa categoria?\nVerranno rimosse tutte le scuderie (con correlate affiliazioni) e gare collegate a questa categoria","Conferma rimozione scuderia",JOptionPane.YES_NO_OPTION)==0) {
+                    try {
+                        Connection conn= DB.getConn();
+                        ResultSet rs=conn.createStatement().executeQuery("SELECT * FROM Scuderia WHERE ID_Categoria='"+comboBox1.getSelectedItem()+"'");
+                        while(rs.next()){
+                            conn.createStatement().executeUpdate("DELETE FROM Affiliazione WHERE Scuderia='"+rs.getString(1)+"'");
+                        }
+                        conn.createStatement().executeUpdate("DELETE FROM Gara WHERE ID_Categoria='"+comboBox1.getSelectedItem()+"'");
+                        conn.createStatement().executeUpdate("DELETE FROM Scuderia where ID_Categoria='"+comboBox1.getSelectedItem()+"'");
+                        conn.createStatement().executeUpdate("DELETE FROM Categoria WHERE ID_Categoria='"+comboBox1.getSelectedItem()+"'");
+                        JOptionPane.showMessageDialog(null,"La categoria è stata rimossa con successo","Categoria rimossa",JOptionPane.INFORMATION_MESSAGE);
+                        dispose();
+                        new MenuProgramma();
+                    } catch (SQLException e2) {
+                        System.err.println(e2.getMessage());
+                        JOptionPane.showMessageDialog(null, e2.getMessage(),"Error SQL Rimuovi Categoria",JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
         });
