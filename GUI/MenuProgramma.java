@@ -17,7 +17,6 @@ public class MenuProgramma extends JFrame {
     private JButton scuderieButton;
     private JButton sponsorButton;
     private JButton gareButton;
-    private JButton tornaIndietroButton;
     private JButton affiliazioneButton;
     private JButton categorieButton;
 
@@ -28,13 +27,6 @@ public class MenuProgramma extends JFrame {
         setLocationRelativeTo(null);
         setContentPane(panel);
         setVisible(true);
-        tornaIndietroButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                new GUI();
-            }
-        });
         pilotiButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
