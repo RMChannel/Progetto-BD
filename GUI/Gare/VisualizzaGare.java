@@ -17,6 +17,13 @@ public class VisualizzaGare extends JFrame {
     private JTable table1;
     private JComboBox nazioneComboBox;
     private JComboBox categoriaComboBox;
+    private JLabel lunghezzaMaxLabel;
+    private JLabel lunghezzaMinLabel;
+    private float lunghezzaMax;
+    private String circuitoMax;
+    private float lunghezzaMin;
+    private String circuitoMin;
+
 
     public VisualizzaGare() {
         setContentPane(panel1);
@@ -39,6 +46,8 @@ public class VisualizzaGare extends JFrame {
                 updateTable();
             }
         });
+        lunghezzaMaxLabel.setText("Lunghezza gara massima: " + lunghezzaMax + "km sul circuito: "+circuitoMax);
+        lunghezzaMinLabel.setText("Lunghezza gara minima: "+lunghezzaMin + "km sul circuito: "+circuitoMin);
     }
 
     private void updateTable() {
@@ -50,16 +59,58 @@ public class VisualizzaGare extends JFrame {
         try {
             Connection conn=DB.getConn();
             ResultSet rs;
-            if(nazioneComboBox.getSelectedIndex()==0 && categoriaComboBox.getSelectedIndex()==0) rs=conn.createStatement().executeQuery("select * from Gara order by Data");
-            else if(!(nazioneComboBox.getSelectedIndex()==0) && categoriaComboBox.getSelectedIndex()==0) rs=conn.createStatement().executeQuery("select * from Gara where Nazione='"+nazioneComboBox.getSelectedItem()+"' order by Data");
-            else if(nazioneComboBox.getSelectedIndex()==0 && !(categoriaComboBox.getSelectedIndex()==0)) rs=conn.createStatement().executeQuery("select * from Gara where ID_Categoria='"+categoriaComboBox.getSelectedItem()+"' order by Data");
-            else rs=conn.createStatement().executeQuery("select * from Gara where ID_Categoria='"+categoriaComboBox.getSelectedItem()+"' AND Nazione='"+nazioneComboBox.getSelectedItem()+"' order by Data");
+            if(nazioneComboBox.getSelectedIndex()==0 && categoriaComboBox.getSelectedIndex()==0) {
+                rs=conn.createStatement().executeQuery("SELECT Nome_Circuito, Lunghezza*Numero_Giri as Totale FROM Gara WHERE lunghezza * Numero_Giri = (SELECT MAX(lunghezza * Numero_Giri) FROM Gara)");
+                rs.next();
+                circuitoMax=rs.getString(1);
+                lunghezzaMax =rs.getFloat(2);
+                rs=conn.createStatement().executeQuery("SELECT Nome_Circuito, Lunghezza*Numero_Giri as Totale FROM Gara WHERE lunghezza * Numero_Giri = (SELECT MIN(lunghezza * Numero_Giri) FROM Gara)");
+                rs.next();
+                circuitoMin=rs.getString(1);
+                lunghezzaMin =rs.getFloat(2);
+                rs=conn.createStatement().executeQuery("select * from Gara order by Data");
+            }
+            else if(!(nazioneComboBox.getSelectedIndex()==0) && categoriaComboBox.getSelectedIndex()==0) {
+                rs=conn.createStatement().executeQuery("SELECT Nome_Circuito, lunghezza * Numero_Giri AS Totale " + "FROM Gara " + "WHERE Nazione = '" + nazioneComboBox.getSelectedItem() + "' " + "AND (lunghezza * Numero_Giri) = (" + "SELECT MAX(lunghezza * Numero_Giri) " + "FROM Gara " + "WHERE Nazione = '" + nazioneComboBox.getSelectedItem() + "'" + ")");
+                rs.next();
+                circuitoMax=rs.getString(1);
+                lunghezzaMax =rs.getFloat(2);
+                rs=conn.createStatement().executeQuery("SELECT Nome_Circuito, lunghezza * Numero_Giri AS Totale " + "FROM Gara " + "WHERE Nazione = '" + nazioneComboBox.getSelectedItem() + "' " + "AND (lunghezza * Numero_Giri) = (" + "SELECT MIN(lunghezza * Numero_Giri) " + "FROM Gara " + "WHERE Nazione = '" + nazioneComboBox.getSelectedItem() + "'" + ")");
+                rs.next();
+                circuitoMin=rs.getString(1);
+                lunghezzaMin =rs.getFloat(2);
+                rs=conn.createStatement().executeQuery("select * from Gara where Nazione='"+nazioneComboBox.getSelectedItem()+"' order by Data");
+            }
+            else if(nazioneComboBox.getSelectedIndex()==0 && !(categoriaComboBox.getSelectedIndex()==0)) {
+                rs=conn.createStatement().executeQuery("SELECT Nome_Circuito, lunghezza * Numero_Giri AS Totale FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND (lunghezza * Numero_Giri) = (SELECT MAX(lunghezza * Numero_Giri) FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "')");
+                rs.next();
+                circuitoMax=rs.getString(1);
+                lunghezzaMax =rs.getFloat(2);
+                rs=conn.createStatement().executeQuery("SELECT Nome_Circuito, lunghezza * Numero_Giri AS Totale FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND (lunghezza * Numero_Giri) = (SELECT MIN(lunghezza * Numero_Giri) FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "')");
+                rs.next();
+                circuitoMin=rs.getString(1);
+                lunghezzaMin =rs.getFloat(2);
+                rs=conn.createStatement().executeQuery("select * from Gara where ID_Categoria='"+categoriaComboBox.getSelectedItem()+"' order by Data");
+            }
+            else {
+                rs=conn.createStatement().executeQuery("SELECT Nome_Circuito, lunghezza * Numero_Giri AS Totale FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (lunghezza * Numero_Giri) = (SELECT MAX(lunghezza * Numero_Giri) FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND Nazione = '" + nazioneComboBox.getSelectedItem() + "')");
+                rs.next();
+                circuitoMax=rs.getString(1);
+                lunghezzaMax =rs.getFloat(2);
+                rs=conn.createStatement().executeQuery("SELECT Nome_Circuito, lunghezza * Numero_Giri AS Totale FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (lunghezza * Numero_Giri) = (SELECT MIN(lunghezza * Numero_Giri) FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND Nazione = '" + nazioneComboBox.getSelectedItem() + "')");
+                rs.next();
+                circuitoMin=rs.getString(1);
+                lunghezzaMin =rs.getFloat(2);
+                rs=conn.createStatement().executeQuery("select * from Gara where ID_Categoria='"+categoriaComboBox.getSelectedItem()+"' AND Nazione='"+nazioneComboBox.getSelectedItem()+"' order by Data");
+            }
             while(rs.next()){
                 String[] temp;
                 if(rs.getString(7)==null) temp= new String[]{rs.getString(4), rs.getString(9), rs.getString(1), rs.getString(2), String.valueOf(rs.getFloat(3)), String.valueOf(rs.getInt(5)), rs.getString(8), "Non ancora svolta"};
                 else temp= new String[]{rs.getString(4), rs.getString(9), rs.getString(1), rs.getString(2), String.valueOf(rs.getFloat(3)), String.valueOf(rs.getInt(5)), rs.getString(8), rs.getInt(6) + " " + rs.getString(7)};
                 model.addRow(temp);
             }
+            lunghezzaMaxLabel.setText("Lunghezza gara massima: " + lunghezzaMax + "km sul circuito: "+circuitoMax);
+            lunghezzaMinLabel.setText("Lunghezza gara minima: "+lunghezzaMin+"km sul circuito: "+circuitoMin);
             } catch (SQLException e2) {
             System.err.println(e2.getMessage());
                 JOptionPane.showMessageDialog(null, "Errore nella connessione al database","Error SQL Gare",JOptionPane.ERROR_MESSAGE);
@@ -76,7 +127,15 @@ public class VisualizzaGare extends JFrame {
         categoriaComboBox.addItem("Tutte");
         try {
             Connection conn= DB.getConn();
-            ResultSet rs=conn.createStatement().executeQuery("select * from Gara ORDER BY Data");
+            ResultSet rs=conn.createStatement().executeQuery("SELECT Nome_Circuito, Lunghezza*Numero_Giri as Totale FROM Gara WHERE lunghezza * Numero_Giri = (SELECT MAX(lunghezza * Numero_Giri) FROM Gara)");
+            rs.next();
+            circuitoMax=rs.getString(1);
+            lunghezzaMax =rs.getFloat(2);
+            rs=conn.createStatement().executeQuery("SELECT Nome_Circuito, Lunghezza*Numero_Giri as Totale FROM Gara WHERE lunghezza * Numero_Giri = (SELECT MIN(lunghezza * Numero_Giri) FROM Gara)");
+            rs.next();
+            circuitoMin=rs.getString(1);
+            lunghezzaMin =rs.getFloat(2);
+            rs=conn.createStatement().executeQuery("select * from Gara ORDER BY Data");
             ArrayList<String> nazioni=new ArrayList<>();
             while(rs.next()){
                 String[] temp;
@@ -102,7 +161,7 @@ public class VisualizzaGare extends JFrame {
         }
         setTitle("Visualizzazione Gare");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1200, 500);
+        setSize(1200, 800);
         setLocationRelativeTo(null);
         setVisible(true);
     }

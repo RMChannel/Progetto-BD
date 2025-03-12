@@ -1,0 +1,8 @@
+- (X) Una selezione ordinata su un attributo di una tabella con condizioni AND e OR;
+- (X) Una selezione su due o più tabelle con condizioni;
+- (V) Una selezione aggregata su tutti i valori (es. somma di tutti gli stipendi)
+- (V) Una selezione aggregata su raggruppamenti (es. somma stipendi per dipartimenti)
+- (X) Una selezione aggregata su raggruppamenti con condizioni (es. dipartimenti la cui somma degli stipendi dei dipendenti è > 100k)
+- (X) Una selezione aggregata su raggruppamenti con condizioni che includano un’altra funzione di raggruppamento (es. dipartimenti la cui somma degli stipendi è la più alta)
+- (X) Una selezione con operazioni insiemistiche
+- (X) Una selezione con l’uso appropriato della divisione.
