@@ -12,6 +12,7 @@ public class MenuGare extends JFrame {
     private JButton creaUnaNuovaGaraButton;
     private JButton visualizzaTutteLeGareButton;
     private JButton rimuoviGaraButton;
+    private JButton luneghezzaMediaGareButton;
 
     public MenuGare() {
         setTitle("Menu Gare");
@@ -46,6 +47,13 @@ public class MenuGare extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 dispose();
                 new CreaGara();
+            }
+        });
+        luneghezzaMediaGareButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new LunghezzaMediaGare();
             }
         });
     }
