@@ -19,6 +19,7 @@ public class MenuProgramma extends JFrame {
     private JButton gareButton;
     private JButton affiliazioneButton;
     private JButton categorieButton;
+    private JButton partecipazioneButton;
 
     public MenuProgramma() {
         setTitle("Formula 1");
@@ -67,6 +68,13 @@ public class MenuProgramma extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 dispose();
                 new MenuCategorie();
+            }
+        });
+        partecipazioneButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new Partecipazione();
             }
         });
     }

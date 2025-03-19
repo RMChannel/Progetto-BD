@@ -4,5 +4,5 @@
 - (V) Una selezione aggregata su raggruppamenti (es. somma stipendi per dipartimenti) - LunghezzaMediaGare
 - (V) Una selezione aggregata su raggruppamenti con condizioni (es. dipartimenti la cui somma degli stipendi dei dipendenti è > 100k) - LunghezzaMediaGare
 - (V) Una selezione aggregata su raggruppamenti con condizioni che includano un’altra funzione di raggruppamento (es. dipartimenti la cui somma degli stipendi è la più alta) - EliteSponsor
-- (X) Una selezione con operazioni insiemistiche
+- (X) Una selezione con operazioni insiemistiche -
 - (X) Una selezione con l’uso appropriato della divisione.
