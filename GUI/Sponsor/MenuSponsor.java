@@ -19,6 +19,7 @@ public class MenuSponsor extends JFrame {
     private JButton visualizzaSponsorizzazioniButton;
     private JButton rimuoviSponsorizzazioneButton;
     private JButton eliteSponsorButton;
+    private JButton mostraPilotiCheNonButton;
 
     public MenuSponsor() {
         setTitle("Menu Sponsor");
@@ -81,6 +82,13 @@ public class MenuSponsor extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 dispose();
                 new EliteSponsor();
+            }
+        });
+        mostraPilotiCheNonButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new NoSponsor();
             }
         });
     }
