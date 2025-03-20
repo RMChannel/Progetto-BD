@@ -13,11 +13,12 @@ public class MenuGare extends JFrame {
     private JButton visualizzaTutteLeGareButton;
     private JButton rimuoviGaraButton;
     private JButton luneghezzaMediaGareButton;
+    private JButton nazioniInCuiSiButton;
 
     public MenuGare() {
         setTitle("Menu Gare");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(200, 300);
+        setSize(400, 300);
         setLocationRelativeTo(null);
         setContentPane(panel1);
         setVisible(true);
@@ -54,6 +55,13 @@ public class MenuGare extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 dispose();
                 new LunghezzaMediaGare();
+            }
+        });
+        nazioniInCuiSiButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new NoScuderiaWhereGara();
             }
         });
     }
