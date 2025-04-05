@@ -39,7 +39,7 @@ public class CreaAffiliazione extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new MenuScuderie();
+                new MenuAffiliazione();
             }
         });
         creaAffiliazioneButton.addActionListener(new ActionListener() {

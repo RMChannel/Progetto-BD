@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class DB {
-    public static Connection conn = null;
+    private static Connection conn = null;
 
     public static Connection getConn() {
         return conn;
