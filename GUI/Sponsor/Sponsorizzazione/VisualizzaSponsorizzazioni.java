@@ -30,20 +30,15 @@ public class VisualizzaSponsorizzazioni extends JFrame {
     }
 
     private void createUIComponents() {
-        String[] columns = {"Numero Pilota","Codice Sponsor","Nome Sponsor"};
+        String[] columns = {"Numero Pilota", "Cognome", "ID Sponsor", "Nome Sponsor"};
         DefaultTableModel model = new DefaultTableModel(columns, 0);
         table1=new JTable(model);
         try {
             Connection conn= DB.getConn();
-            ResultSet rs=conn.createStatement().executeQuery("SELECT * FROM Sponsor");
-            Dictionary<String, String> dic=new Hashtable<>();
-            while(rs.next()){
-                dic.put(rs.getString(1),rs.getString(2));
-            }
-            rs=conn.createStatement().executeQuery("SELECT * FROM Sponsorizzazione");
+            ResultSet rs=conn.createStatement().executeQuery("SELECT sp.Numero_Pilota, sp.Cognome, sp.ID_Sponsor, s.Nome_Sponsor FROM SPONSORIZZAZIONE sp JOIN SPONSOR s ON sp.ID_Sponsor = s.ID_Sponsor");
             String[] row=null;
             while(rs.next()){
-                row= new String[]{String.valueOf(rs.getInt(1)), rs.getString(2),dic.get(rs.getString(2))};
+                row= new String[]{String.valueOf(rs.getInt(1)), rs.getString(2), rs.getString(3), rs.getString(4)};
                 model.addRow(row);
             }
         } catch (SQLException e) {

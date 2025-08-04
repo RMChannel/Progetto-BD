@@ -27,7 +27,7 @@ public class CreaSponsorizzazione extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         try {
             Connection conn= DB.getConn();
-            ResultSet rsPiloti=conn.createStatement().executeQuery("SELECT * FROM Pilota");
+            ResultSet rsPiloti=conn.createStatement().executeQuery("SELECT * FROM PILOTA");
             while (rsPiloti.next()) {
                 pilotaComboBox.addItem(rsPiloti.getInt(1)+" "+rsPiloti.getString(2));
             }
@@ -55,8 +55,8 @@ public class CreaSponsorizzazione extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     Connection conn= DB.getConn();
-                    ResultSet rsPiloti=conn.createStatement().executeQuery("SELECT * FROM Pilota");
-                    ResultSet rsSponsor=conn.createStatement().executeQuery("SELECT * FROM Sponsor");
+                    ResultSet rsPiloti=conn.createStatement().executeQuery("SELECT * FROM PILOTA");
+                    ResultSet rsSponsor=conn.createStatement().executeQuery("SELECT * FROM SPONSOR");
                     int nPilota=0;
                     String cognomePilota="";
                     String codiceSponsor="";
@@ -72,7 +72,7 @@ public class CreaSponsorizzazione extends JFrame {
                             codiceSponsor=rsSponsor.getString(1);
                         }
                     }
-                    DB.getConn().createStatement().executeUpdate("INSERT INTO Sponsorizzazione (Pilota,Sponsor,Nome_Pilota) VALUES ("+nPilota+",'"+codiceSponsor+"','"+cognomePilota+"')");
+                    DB.getConn().createStatement().executeUpdate("INSERT INTO SPONSORIZZAZIONE (Numero_Pilota, ID_Sponsor, Cognome) VALUES ("+nPilota+",'"+codiceSponsor+"','"+cognomePilota+"')");
                     JOptionPane.showMessageDialog(null,"Sponsorizzazione creata con successo","Sponsorizzazione avvenuta",JOptionPane.INFORMATION_MESSAGE);
                     dispose();
                     new MenuProgramma();
@@ -96,8 +96,8 @@ public class CreaSponsorizzazione extends JFrame {
         String[] parts=actualPilota.split(" ");
         try {
             Connection conn= DB.getConn();
-            ResultSet rsSponsor=conn.createStatement().executeQuery("SELECT * FROM Sponsor ORDER BY ID_Sponsor");
-            ResultSet rsSponsorizzazione=conn.createStatement().executeQuery("SELECT * FROM Sponsorizzazione where Pilota="+parts[0]+" && Nome_Pilota='"+parts[1]+"'");
+            ResultSet rsSponsor=conn.createStatement().executeQuery("SELECT * FROM SPONSOR ORDER BY ID_Sponsor");
+            ResultSet rsSponsorizzazione=conn.createStatement().executeQuery("SELECT * FROM SPONSORIZZAZIONE where Numero_Pilota="+parts[0]+" AND Cognome='"+parts[1]+"'");
             ArrayList<String> sponsors=new ArrayList<>();
             while (rsSponsorizzazione.next()) {
                 sponsors.add(rsSponsorizzazione.getString(2));

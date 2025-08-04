@@ -25,6 +25,7 @@ public class CreaScuderia extends JFrame {
     private JTextField CAPTextField;
     private JButton creaScuderiaButton;
     private JComboBox categoriaComboBox;
+    private JTextField nazioneTextField;
 
     public CreaScuderia() {
         setTitle("Crea una Scuderia");
@@ -34,7 +35,7 @@ public class CreaScuderia extends JFrame {
         setLocationRelativeTo(null);
         try {
             Connection conn=DB.getConn();
-            ResultSet rs=conn.createStatement().executeQuery("SELECT * FROM Categoria");
+            ResultSet rs=conn.createStatement().executeQuery("SELECT * FROM CATEGORIA");
             while (rs.next()) {
                 categoriaComboBox.addItem(rs.getString(1));
             }
@@ -53,7 +54,7 @@ public class CreaScuderia extends JFrame {
         creaScuderiaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(nomeTextField.getText().isEmpty() || dataTextField.getText().isEmpty() || cittaTextField.getText().isEmpty() || viaTextField.getText().isEmpty() || CAPTextField.getText().isEmpty()) {
+                if(nomeTextField.getText().isEmpty() || dataTextField.getText().isEmpty() || cittaTextField.getText().isEmpty() || viaTextField.getText().isEmpty() || CAPTextField.getText().isEmpty() || nazioneTextField.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Uno dei parametri è vuoto, controlla e riprova", "Errore parametro vuoto", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -67,8 +68,8 @@ public class CreaScuderia extends JFrame {
                     return;
                 }
                 try {
-                    String dati ="('"+nomeTextField.getText()+"','"+date.getYear()+"-"+date.getMonthValue()+"-"+date.getDayOfMonth()+"','"+cittaTextField.getText()+"','"+viaTextField.getText()+"','"+CAPTextField.getText()+"','"+categoriaComboBox.getSelectedItem()+"')";
-                    DB.getConn().createStatement().executeUpdate("INSERT INTO Scuderia (Nome, Data_entrata, Città, Via, CAP, ID_Categoria) VALUES "+dati);
+                    String dati ="('"+nomeTextField.getText()+"','"+date.getYear()+"-"+date.getMonthValue()+"-"+date.getDayOfMonth()+"','"+nazioneTextField.getText()+"','"+cittaTextField.getText()+"','"+viaTextField.getText()+"','"+CAPTextField.getText()+"','"+categoriaComboBox.getSelectedItem()+"')";
+                    DB.getConn().createStatement().executeUpdate("INSERT INTO SCUDERIA (Nome_Scuderia, Data_entrata, Nazione, Citta, Via, CAP, ID_Categoria) VALUES "+dati);
                     JOptionPane.showMessageDialog(null,"Scuderia aggiunta con successo", "Scuderia aggiunta", JOptionPane.INFORMATION_MESSAGE);
                 } catch (SQLException e2) {
                     System.err.println(e2);

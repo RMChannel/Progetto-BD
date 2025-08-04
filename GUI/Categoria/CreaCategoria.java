@@ -6,7 +6,6 @@ import GUI.MenuProgramma;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,7 +18,7 @@ public class CreaCategoria extends JFrame {
     private JPanel panel1;
     private JTextField nomeCategoriaTextField;
     private JTextField dataInizioTextField;
-    private JTextField dataPartenzaTextField;
+    private JTextField ID_Categoria;
     private JButton creaCategoriaButton;
 
     public CreaCategoria() {
@@ -39,13 +38,12 @@ public class CreaCategoria extends JFrame {
         creaCategoriaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(nomeCategoriaTextField.getText().isEmpty() || dataInizioTextField.getText().isEmpty() || dataPartenzaTextField.getText().isEmpty()) {
+                if(nomeCategoriaTextField.getText().isEmpty() || dataInizioTextField.getText().isEmpty() || ID_Categoria.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null,"Uno dei parametri è vuoto, controlla e riprova","Errore parametro vuoto",JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 LocalDate dataInizio = null;
-                LocalDate dataPartenza = null;
                 try {
                     Date temp= (Date) formatter.parseObject(dataInizioTextField.getText());
                     dataInizio=temp.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -54,14 +52,7 @@ public class CreaCategoria extends JFrame {
                     return;
                 }
                 try {
-                    Date temp= (Date) formatter.parseObject(dataPartenzaTextField.getText());
-                    dataPartenza=temp.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                } catch (ParseException pe) {
-                    JOptionPane.showMessageDialog(null,"La data di partenza non è stata scritta correttamente, controlla e riprova, ricorda ce il formato è dd/MM/yyyy","Errore formato data",JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                try {
-                    DB.getConn().createStatement().executeUpdate("INSERT INTO Categoria (ID_Categoria, Data, Partenza) VALUES ('"+nomeCategoriaTextField.getText()+"','"+dataInizio.getYear()+"-"+dataInizio.getMonthValue()+"-"+dataInizio.getDayOfMonth()+"','"+dataPartenza.getYear()+"-"+dataPartenza.getMonthValue()+"-"+dataPartenza.getDayOfMonth()+"')");
+                    DB.getConn().createStatement().executeUpdate("INSERT INTO CATEGORIA (Nome, Partenza, ID_Categoria) VALUES ('"+nomeCategoriaTextField.getText()+"','"+dataInizio.getYear()+"-"+dataInizio.getMonthValue()+"-"+dataInizio.getDayOfMonth()+"','"+ID_Categoria.getText()+"')");
                     JOptionPane.showMessageDialog(null,"Categoria creata con successo","Categoria creata",JOptionPane.INFORMATION_MESSAGE);
                     dispose();
                     new MenuProgramma();

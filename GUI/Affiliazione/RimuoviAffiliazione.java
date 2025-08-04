@@ -24,9 +24,9 @@ public class RimuoviAffiliazione extends JFrame {
         setLocationRelativeTo(null);
         try {
             Connection conn= DB.getConn();
-            ResultSet rs=conn.createStatement().executeQuery("select * from Affiliazione");
+            ResultSet rs=conn.createStatement().executeQuery("select * from AFFILIAZIONE");
             while(rs.next()){
-                comboBox1.addItem(rs.getString(2)+" con Pilota: "+rs.getInt(1));
+                comboBox1.addItem(rs.getInt(1)+" "+rs.getString(2)+" "+rs.getString(3));
             }
             if(comboBox1.getItemCount()==0) {
                 JOptionPane.showMessageDialog(null, "Nessuna affiliazione disponibile","Errore nessuna affiliazione",JOptionPane.ERROR_MESSAGE);
@@ -52,17 +52,14 @@ public class RimuoviAffiliazione extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     Connection conn= DB.getConn();
-                    ResultSet rs=conn.createStatement().executeQuery("select * from Affiliazione");
-                    int n=0;
-                    while(rs.next()){
-                        n=rs.getInt(1);
-                        if((rs.getString(2)+" con Pilota: "+n).equals(comboBox1.getSelectedItem().toString())){
-                            conn.createStatement().executeUpdate("delete from Affiliazione where Pilota="+n);
-                            JOptionPane.showMessageDialog(null,"Affiliazione rimossa con successo","Affiliazione Rimossa",JOptionPane.INFORMATION_MESSAGE);
-                            dispose();
-                            new MenuProgramma();
-                        }
-                    }
+                    String[] parts = comboBox1.getSelectedItem().toString().split(" ");
+                    int nPilota = Integer.parseInt(parts[0]);
+                    String cognome = parts[1];
+                    String nomeScuderia = parts[2];
+                    conn.createStatement().executeUpdate("delete from AFFILIAZIONE where Numero_Pilota="+nPilota+" AND Cognome='"+cognome+"' AND Nome_Scuderia='"+nomeScuderia+"'");
+                    JOptionPane.showMessageDialog(null,"Affiliazione rimossa con successo","Affiliazione Rimossa",JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+                    new MenuProgramma();
                 } catch (SQLException e1) {
                     System.err.println(e1);
                     JOptionPane.showMessageDialog(null, "Errore nel recupero dei dati delle affiliazioni","Errore SQL Affiliazioni",JOptionPane.ERROR_MESSAGE);

@@ -50,15 +50,15 @@ public class VisualizzaScuderie extends JFrame {
         nazioneComboBox.addItem("Tutte");
         categoriaComboBox.addItem("Tutte");
         try {
-            ResultSet rs=conn.createStatement().executeQuery("SELECT * FROM Scuderia");
+            ResultSet rs=conn.createStatement().executeQuery("SELECT * FROM SCUDERIA");
             while (rs.next()) {
                 String []row={rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7)};
                 model.addRow(row);
             }
             table1=new JTable(model);
-            rs=conn.createStatement().executeQuery("SELECT * FROM Categoria");
+            rs=conn.createStatement().executeQuery("SELECT * FROM CATEGORIA");
             while (rs.next()) categoriaComboBox.addItem(rs.getString(1));
-            rs=conn.createStatement().executeQuery("SELECT DISTINCT Nazione FROM Scuderia ORDER BY Nazione ASC");
+            rs=conn.createStatement().executeQuery("SELECT DISTINCT Nazione FROM SCUDERIA ORDER BY Nazione ASC");
             while (rs.next()) nazioneComboBox.addItem(rs.getString(1));
         } catch (SQLException e) {
             System.err.println(e);
@@ -79,16 +79,16 @@ public class VisualizzaScuderie extends JFrame {
             Connection conn= DB.getConn();
             ResultSet rs;
             if(nazioneComboBox.getSelectedIndex()==0 && categoriaComboBox.getSelectedIndex()==0) {
-                rs=conn.createStatement().executeQuery("SELECT * FROM Scuderia");
+                rs=conn.createStatement().executeQuery("SELECT * FROM SCUDERIA");
             }
             else if(nazioneComboBox.getSelectedIndex()==0 && !(categoriaComboBox.getSelectedIndex()==0)) {
-                rs=conn.createStatement().executeQuery("SELECT * FROM Scuderia where ID_Categoria='"+categoriaComboBox.getSelectedItem()+"'");
+                rs=conn.createStatement().executeQuery("SELECT * FROM SCUDERIA where ID_Categoria='"+categoriaComboBox.getSelectedItem()+"'");
             }
             else if(!(nazioneComboBox.getSelectedIndex()==0) && categoriaComboBox.getSelectedIndex()==0) {
-                rs=conn.createStatement().executeQuery("SELECT * FROM Scuderia where Nazione='"+nazioneComboBox.getSelectedItem()+"'");
+                rs=conn.createStatement().executeQuery("SELECT * FROM SCUDERIA where Nazione='"+nazioneComboBox.getSelectedItem()+"'");
             }
             else {
-                rs=conn.createStatement().executeQuery("SELECT * FROM Scuderia where Nazione='"+nazioneComboBox.getSelectedItem()+"' AND ID_Categoria='"+categoriaComboBox.getSelectedItem()+"'");
+                rs=conn.createStatement().executeQuery("SELECT * FROM SCUDERIA where Nazione='"+nazioneComboBox.getSelectedItem()+"' AND ID_Categoria='"+categoriaComboBox.getSelectedItem()+"'");
             }
             while (rs.next()) {
                 String []row={rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7)};

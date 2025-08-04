@@ -25,9 +25,9 @@ public class CreaAffiliazione extends JFrame {
         setSize(500, 300);
         try {
             Connection conn= DB.getConn();
-            ResultSet rs=conn.createStatement().executeQuery("select * from Scuderia");
+            ResultSet rs=conn.createStatement().executeQuery("select * from SCUDERIA");
             while(rs.next()) scuderiaComboBox.addItem(rs.getString(1));
-            rs=conn.createStatement().executeQuery("select * from Pilota");
+            rs=conn.createStatement().executeQuery("select * from PILOTA");
             while(rs.next()) pilotaComboBox.addItem(Integer.toString(rs.getInt(1))+" "+rs.getString(2));
         } catch (SQLException e) {
             System.err.println(e);
@@ -59,7 +59,7 @@ public class CreaAffiliazione extends JFrame {
                 }
                 try {
                     Connection conn= DB.getConn();
-                    ResultSet rs=conn.createStatement().executeQuery("select * from Pilota");
+                    ResultSet rs=conn.createStatement().executeQuery("select * from PILOTA");
                     while(rs.next()) {
                         nPilota=rs.getInt(1);
                         cognome=rs.getString(2);
@@ -67,14 +67,14 @@ public class CreaAffiliazione extends JFrame {
                             break;
                         }
                     }
-                    rs=conn.createStatement().executeQuery("select * from Affiliazione");
+                    rs=conn.createStatement().executeQuery("select * from AFFILIAZIONE");
                     while(rs.next()) {
                         if(rs.getInt(1)==nPilota) {
                             JOptionPane.showMessageDialog(null,"Il pilota è già affliato con un'altra scuderia","Pilota già affiliato",JOptionPane.ERROR_MESSAGE);
                             return;
                         }
                     }
-                    DB.getConn().createStatement().executeUpdate("INSERT INTO Affiliazione (Pilota, Scuderia, Durata,Cognome_Pilota) VALUES ("+nPilota+",'"+scuderiaComboBox.getSelectedItem().toString()+"',"+durata+",'"+cognome+"')");
+                    DB.getConn().createStatement().executeUpdate("INSERT INTO AFFILIAZIONE (Numero_Pilota, Cognome, Nome_Scuderia, Durata) VALUES ("+nPilota+",'"+cognome+"','"+scuderiaComboBox.getSelectedItem().toString()+"',"+durata+")");
                     JOptionPane.showMessageDialog(null,"Affiliazione creata correttamente","Affiliazione effettuata",JOptionPane.INFORMATION_MESSAGE);
                     dispose();
                     new MenuProgramma();

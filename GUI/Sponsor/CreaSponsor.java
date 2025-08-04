@@ -39,14 +39,14 @@ public class CreaSponsor extends JFrame {
                 }
                 try {
                     Connection conn= DB.getConn();
-                    ResultSet rs=conn.createStatement().executeQuery("SELECT ID_Sponsor from Sponsor");
+                    ResultSet rs=conn.createStatement().executeQuery("SELECT ID_Sponsor from SPONSOR");
                     String value="";
                     while(rs.next()) {
                         value=rs.getString(1);
                     }
                     int codice=Integer.parseInt(value.substring(3))+1;
                     value="SPN"+codice;
-                    conn.createStatement().executeUpdate("INSERT INTO Sponsor (ID_Sponsor,Nome_Sponsor) VALUES ('"+value+"','"+textField1.getText()+"')");
+                    conn.createStatement().executeUpdate("INSERT INTO SPONSOR (ID_Sponsor,Nome_Sponsor) VALUES ('"+value+"','"+textField1.getText()+"')");
                     JOptionPane.showMessageDialog(null, "Sponsor creato con successo","Sponsor creato",JOptionPane.INFORMATION_MESSAGE);
                     dispose();
                     new MenuProgramma();

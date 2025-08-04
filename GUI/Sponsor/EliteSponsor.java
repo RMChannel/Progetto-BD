@@ -38,16 +38,16 @@ public class EliteSponsor extends JFrame {
         try {
             Connection conn= DB.getConn();
             ResultSet rs=conn.createStatement().executeQuery("SELECT SP.NOME_SPONSOR,\n" +
-                    "       COUNT(SPZ.PILOTA) AS NUMERO_PILOTI_SPONSORIZZATI\n" +
-                    "FROM Sponsorizzazione SPZ\n" +
-                    "         JOIN Sponsor SP ON SPZ.SPONSOR = SP.ID_SPONSOR\n" +
+                    "       COUNT(SPZ.Numero_Pilota) AS NUMERO_PILOTI_SPONSORIZZATI\n" +
+                    "FROM SPONSORIZZAZIONE SPZ\n" +
+                    "         JOIN SPONSOR SP ON SPZ.ID_Sponsor = SP.ID_SPONSOR\n" +
                     "GROUP BY SP.NOME_SPONSOR\n" +
-                    "HAVING COUNT(SPZ.PILOTA) > (\n" +
+                    "HAVING COUNT(SPZ.Numero_Pilota) > (\n" +
                     "    SELECT AVG(NUMERO_PILOTI)\n" +
                     "    FROM (\n" +
-                    "             SELECT COUNT(SPZ2.PILOTA) AS NUMERO_PILOTI\n" +
-                    "             FROM Sponsorizzazione SPZ2\n" +
-                    "             GROUP BY SPZ2.SPONSOR\n" +
+                    "             SELECT COUNT(SPZ2.Numero_Pilota) AS NUMERO_PILOTI\n" +
+                    "             FROM SPONSORIZZAZIONE SPZ2\n" +
+                    "             GROUP BY SPZ2.ID_Sponsor\n" +
                     "         ) AS MEDIA_SPONSORIZZAZIONI\n" +
                     ")\n" +
                     "ORDER BY NUMERO_PILOTI_SPONSORIZZATI DESC;");

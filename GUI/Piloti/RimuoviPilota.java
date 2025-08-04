@@ -23,7 +23,7 @@ public class RimuoviPilota extends JFrame {
         setLocationRelativeTo(null);
         try {
             Connection conn= DB.getConn();
-            ResultSet rs=conn.createStatement().executeQuery("select * from Pilota");
+            ResultSet rs=conn.createStatement().executeQuery("select * from PILOTA");
             while(rs.next()) comboBox1.addItem(Integer.toString(rs.getInt(1))+" "+rs.getString(2));
             if(comboBox1.getItemCount()==0) {
                 JOptionPane.showMessageDialog(null, "Nessun pilota disponibile","Errore nessun pilota",JOptionPane.ERROR_MESSAGE);
@@ -49,14 +49,14 @@ public class RimuoviPilota extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     Connection conn= DB.getConn();
-                    ResultSet rs=conn.createStatement().executeQuery("select * from Pilota");
+                    ResultSet rs=conn.createStatement().executeQuery("select * from PILOTA");
                     while(rs.next()) {
                         int nPilota=rs.getInt(1);
                         String cognome=rs.getString(2);
                         if((Integer.toString(nPilota)+" "+cognome).equals(comboBox1.getSelectedItem().toString())) {
-                            conn.createStatement().executeUpdate("delete from Affiliazione where Pilota="+nPilota+" AND Cognome_Pilota='"+cognome+"'");
-                            conn.createStatement().executeUpdate("delete from Sponsorizzazione where Pilota="+nPilota+" AND Nome_Pilota='"+cognome+"'");
-                            conn.createStatement().executeUpdate("delete from Pilota where Numero_Pilota="+nPilota+" AND Cognome='"+cognome+"'");
+                            conn.createStatement().executeUpdate("delete from AFFILIAZIONE where Numero_Pilota="+nPilota+" AND Cognome='"+cognome+"'");
+                            conn.createStatement().executeUpdate("delete from SPONSORIZZAZIONE where Numero_Pilota="+nPilota+" AND Cognome='"+cognome+"'");
+                            conn.createStatement().executeUpdate("delete from PILOTA where Numero_Pilota="+nPilota+" AND Cognome='"+cognome+"'");
                             dispose();
                             JOptionPane.showMessageDialog(null,"Pilota rimosso con successo","Rimozione Avvenuta",JOptionPane.INFORMATION_MESSAGE);
                             new MenuProgramma();

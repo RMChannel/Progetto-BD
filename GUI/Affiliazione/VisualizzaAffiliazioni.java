@@ -31,15 +31,15 @@ public class VisualizzaAffiliazioni extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 DefaultTableModel model = (DefaultTableModel) table1.getModel();
                 model.setRowCount(0);
-                String[] columns = {"Scuderia","Numero Pilota","Durata Affiliazione"};
+                String[] columns = {"Numero Pilota","Cognome","Scuderia","Durata Affiliazione"};
                 model.setColumnIdentifiers(columns);
                 table1=new JTable(model);
                 Connection conn= DB.getConn();
                 if (comboBox1.getSelectedItem().equals("Tutti")) {
                     try {
-                        ResultSet rs=conn.createStatement().executeQuery("SELECT * FROM Affiliazione");
+                        ResultSet rs=conn.createStatement().executeQuery("SELECT * FROM AFFILIAZIONE");
                         while(rs.next()){
-                            model.addRow(new Object[]{rs.getString(2),Integer.toString(rs.getInt(1)),Integer.toString(rs.getInt(3))});
+                            model.addRow(new Object[]{rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4)});
                         }
                     } catch (SQLException e3) {
                         System.err.println(e3);
@@ -48,9 +48,9 @@ public class VisualizzaAffiliazioni extends JFrame {
                 }
                 else {
                     try {
-                        ResultSet rs=conn.createStatement().executeQuery("SELECT * FROM Affiliazione a where a.Scuderia='"+comboBox1.getSelectedItem().toString()+"'");
+                        ResultSet rs=conn.createStatement().executeQuery("SELECT * FROM AFFILIAZIONE a where a.Nome_Scuderia='"+comboBox1.getSelectedItem().toString()+"'");
                         while(rs.next()){
-                            model.addRow(new Object[]{rs.getString(2),Integer.toString(rs.getInt(1)),Integer.toString(rs.getInt(3))});
+                            model.addRow(new Object[]{rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4)});
                         }
                     } catch (SQLException e4) {
                         System.err.println(e4);
@@ -63,20 +63,20 @@ public class VisualizzaAffiliazioni extends JFrame {
 
     private void createUIComponents() {
         DefaultTableModel model = new DefaultTableModel();
-        String[] columns = {"Scuderia","Numero Pilota","Durata Affiliazione"};
+        String[] columns = {"Numero Pilota","Cognome","Scuderia","Durata Affiliazione"};
         model.setColumnIdentifiers(columns);
         table1=new JTable(model);
         comboBox1=new JComboBox();
         comboBox1.addItem("Tutti");
         try {
             Connection conn= DB.getConn();
-            ResultSet rs=conn.createStatement().executeQuery("SELECT s.Nome, COUNT(a.Scuderia) AS NumAffiliazioni FROM Scuderia s INNER JOIN Affiliazione a ON s.Nome = a.Scuderia GROUP BY s.Nome;");
+            ResultSet rs=conn.createStatement().executeQuery("SELECT s.Nome_Scuderia, COUNT(a.Nome_Scuderia) AS NumAffiliazioni FROM SCUDERIA s INNER JOIN AFFILIAZIONE a ON s.Nome_Scuderia = a.Nome_Scuderia GROUP BY s.Nome_Scuderia;");
             while(rs.next()){
                 comboBox1.addItem(rs.getString(1));
             }
-            rs=conn.createStatement().executeQuery("SELECT * FROM Affiliazione");
+            rs=conn.createStatement().executeQuery("SELECT * FROM AFFILIAZIONE");
             while(rs.next()){
-                model.addRow(new Object[]{rs.getString(2),Integer.toString(rs.getInt(1)),Integer.toString(rs.getInt(3))});
+                model.addRow(new Object[]{rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4)});
             }
         } catch (SQLException e2) {
             System.err.println(e2);

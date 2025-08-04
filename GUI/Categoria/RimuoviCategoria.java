@@ -24,7 +24,7 @@ public class RimuoviCategoria extends JFrame {
         setLocationRelativeTo(null);
         try {
             Connection conn= DB.getConn();
-            ResultSet rs=conn.createStatement().executeQuery("SELECT * FROM Categoria");
+            ResultSet rs=conn.createStatement().executeQuery("SELECT * FROM CATEGORIA");
             while(rs.next()){
                 comboBox1.addItem(rs.getString(1));
             }
@@ -47,13 +47,13 @@ public class RimuoviCategoria extends JFrame {
                 if(JOptionPane.showConfirmDialog(null,"Sei sicuro di voler cancellare questa categoria?\nVerranno rimosse tutte le scuderie (con correlate affiliazioni) e gare collegate a questa categoria","Conferma rimozione scuderia",JOptionPane.YES_NO_OPTION)==0) {
                     try {
                         Connection conn= DB.getConn();
-                        ResultSet rs=conn.createStatement().executeQuery("SELECT * FROM Scuderia WHERE ID_Categoria='"+comboBox1.getSelectedItem()+"'");
+                        ResultSet rs=conn.createStatement().executeQuery("SELECT * FROM SCUDERIA WHERE ID_Categoria='"+comboBox1.getSelectedItem()+"'");
                         while(rs.next()){
-                            conn.createStatement().executeUpdate("DELETE FROM Affiliazione WHERE Scuderia='"+rs.getString(1)+"'");
+                            conn.createStatement().executeUpdate("DELETE FROM AFFILIAZIONE WHERE Scuderia='"+rs.getString(1)+"'");
                         }
-                        conn.createStatement().executeUpdate("DELETE FROM Gara WHERE ID_Categoria='"+comboBox1.getSelectedItem()+"'");
-                        conn.createStatement().executeUpdate("DELETE FROM Scuderia where ID_Categoria='"+comboBox1.getSelectedItem()+"'");
-                        conn.createStatement().executeUpdate("DELETE FROM Categoria WHERE ID_Categoria='"+comboBox1.getSelectedItem()+"'");
+                        conn.createStatement().executeUpdate("DELETE FROM GARA WHERE ID_Categoria='"+comboBox1.getSelectedItem()+"'");
+                        conn.createStatement().executeUpdate("DELETE FROM SCUDERIA where ID_Categoria='"+comboBox1.getSelectedItem()+"'");
+                        conn.createStatement().executeUpdate("DELETE FROM CATEGORIA WHERE ID_Categoria='"+comboBox1.getSelectedItem()+"'");
                         JOptionPane.showMessageDialog(null,"La categoria è stata rimossa con successo","Categoria rimossa",JOptionPane.INFORMATION_MESSAGE);
                         dispose();
                         new MenuProgramma();

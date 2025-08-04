@@ -37,10 +37,7 @@ public class NoSponsor extends JFrame {
         DefaultTableModel model = new DefaultTableModel(null,columns);
         try {
             Connection conn= DB.getConn();
-            ResultSet rs=conn.createStatement().executeQuery("SELECT P.NUMERO_PILOTA, P.COGNOME\n" +
-                    "FROM Pilota P\n" +
-                    "         LEFT JOIN Sponsorizzazione SP ON P.NUMERO_PILOTA = SP.PILOTA\n" +
-                    "WHERE SP.SPONSOR IS NULL;");
+            ResultSet rs=conn.createStatement().executeQuery("SELECT P.NUMERO_PILOTA, P.COGNOME FROM PILOTA P LEFT JOIN SPONSORIZZAZIONE SP ON P.NUMERO_PILOTA = SP.Numero_Pilota AND P.COGNOME = SP.Cognome WHERE SP.ID_Sponsor IS NULL;");
             while (rs.next()) {
                 model.addRow(new Object[]{rs.getString(1),rs.getString(2)});
             }

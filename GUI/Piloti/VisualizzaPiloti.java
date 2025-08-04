@@ -61,7 +61,7 @@ public class VisualizzaPiloti extends JFrame {
     private void addColumns(int n, DefaultTableModel model) {
         Connection conn= DB.getConn();
         try {
-            ResultSet rs=conn.createStatement().executeQuery("SELECT * FROM Pilota WHERE Numero_Campionati >= "+n);
+            ResultSet rs=conn.createStatement().executeQuery("SELECT * FROM PILOTA WHERE Numero_Campionati >= "+n);
             while (rs.next()) {
                 String []row=new String[3];
                 row[0]=Integer.toString(rs.getInt(1));

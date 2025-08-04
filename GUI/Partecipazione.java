@@ -45,7 +45,7 @@ public class Partecipazione extends JFrame {
         pilotaComboBox=new JComboBox();
         try {
             Connection conn= DB.getConn();
-            ResultSet rs=conn.createStatement().executeQuery("select * from Pilota");
+            ResultSet rs=conn.createStatement().executeQuery("select * from PILOTA");
             while(rs.next()){
                 pilotaComboBox.addItem(rs.getString(1)+" "+rs.getString(2));
             }
@@ -60,21 +60,21 @@ public class Partecipazione extends JFrame {
         DefaultTableModel model = new DefaultTableModel(null,columns);
         try {
             Connection conn= DB.getConn();
-            ResultSet rs=conn.createStatement().executeQuery("select * from Pilota");
+            ResultSet rs=conn.createStatement().executeQuery("select * from PILOTA");
             rs.next();
             for(int i=0;i<pilotaComboBox.getSelectedIndex();i++) {
                 rs.next();
             }
-            ResultSet rs2=conn.createStatement().executeQuery("select * from Gara");
+            ResultSet rs2=conn.createStatement().executeQuery("select * from GARA");
             Dictionary<String,String> dicNazione=new Hashtable<>();
             Dictionary<String,String> dicCircuito=new Hashtable<>();
             while(rs2.next()){
-                dicNazione.put(rs2.getString(4),rs2.getString(2));
-                dicCircuito.put(rs2.getString(4),rs2.getString(9));
+                dicNazione.put(rs2.getString(1),rs2.getString(2));
+                dicCircuito.put(rs2.getString(1),rs2.getString(3));
             }
-            rs=conn.createStatement().executeQuery("select * from Partecipazione where Numero_Pilota="+rs.getString(1)+" AND Cognome_Pilota='"+rs.getString(2).replace("'","\\'")+"'");
+            rs=conn.createStatement().executeQuery("select * from PARTECIPAZIONE where Numero_Pilota="+rs.getString(1)+" AND Cognome='"+rs.getString(2).replace("'","\'")+"'");
             while(rs.next()) {
-                model.addRow(new Object[]{rs.getString(1),dicNazione.get(rs.getString(1)),dicCircuito.get(rs.getString(1))});
+                model.addRow(new Object[]{rs.getString(1),dicNazione.get(rs.getString(3)),dicCircuito.get(rs.getString(3))});
             }
             table1.setModel(model);
         } catch (SQLException e2) {

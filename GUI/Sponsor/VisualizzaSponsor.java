@@ -34,13 +34,13 @@ public class VisualizzaSponsor extends JFrame {
         try {
             Connection conn= DB.getConn();
             HashMap<String, ArrayList<String>> dictionary = new HashMap<>();
-            ResultSet rs=conn.createStatement().executeQuery("select * from Sponsorizzazione");
+            ResultSet rs=conn.createStatement().executeQuery("select * from SPONSORIZZAZIONE");
             while(rs.next()){
-                String sponsor = rs.getString(2);
+                String sponsor = rs.getString(1);
                 dictionary.putIfAbsent(sponsor, new ArrayList<>());
-                dictionary.get(sponsor).add(rs.getInt(1)+" "+rs.getString(3));
+                dictionary.get(sponsor).add(rs.getInt(2)+" "+rs.getString(3));
             }
-            rs=conn.createStatement().executeQuery("SELECT * FROM Sponsor");
+            rs=conn.createStatement().executeQuery("SELECT * FROM SPONSOR");
             while(rs.next()){
                 String sponsor=rs.getString(1);
                 String[] temp=null;
@@ -53,10 +53,11 @@ public class VisualizzaSponsor extends JFrame {
                 model.addRow(temp);
             }
         } catch (SQLException e) {
-            System.err.println(e);
-            JOptionPane.showMessageDialog(null, "C'è stato qualche errore durante la connessione al database","Errore SQL Sposnor",JOptionPane.ERROR_MESSAGE);
-            dispose();
-            new MenuSponsor();
+            throw new RuntimeException(e);
+            //System.err.println(e);
+            //JOptionPane.showMessageDialog(null, "C'è stato qualche errore durante la connessione al database","Errore SQL Sposnor",JOptionPane.ERROR_MESSAGE);
+            //dispose();
+            //  new MenuSponsor();
         }
         setTitle("Visualizza Sponsor");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

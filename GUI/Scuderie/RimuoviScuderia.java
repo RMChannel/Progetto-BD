@@ -20,8 +20,8 @@ public class RimuoviScuderia extends JFrame {
         setTitle("Rimuovi Scuderia");
         try {
             Connection conn= DB.getConn();
-            ResultSet rs=conn.createStatement().executeQuery("select * from Scuderia");
-            while(rs.next()) comboBox1.addItem(rs.getString(1)+" "+rs.getString(6));
+            ResultSet rs=conn.createStatement().executeQuery("select * from SCUDERIA");
+            while(rs.next()) comboBox1.addItem(rs.getString(1));
             if(comboBox1.getItemCount()==0) {
                 JOptionPane.showMessageDialog(null, "Nessuna scuderia è disponbile","Errore nessuna Scuderia",JOptionPane.ERROR_MESSAGE);
                 dispose();
@@ -49,8 +49,8 @@ public class RimuoviScuderia extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     Connection conn= DB.getConn();
-                    conn.createStatement().executeUpdate("delete from Affiliazione where Scuderia='"+comboBox1.getSelectedItem()+"'");
-                    conn.createStatement().executeUpdate("delete from Scuderia where Nome='"+comboBox1.getSelectedItem()+"'");
+                    conn.createStatement().executeUpdate("delete from AFFILIAZIONE where Nome_Scuderia='"+comboBox1.getSelectedItem()+"'");
+                    conn.createStatement().executeUpdate("delete from SCUDERIA where Nome_Scuderia='"+comboBox1.getSelectedItem()+"'");
                     JOptionPane.showMessageDialog(null,"Scuderia rimossa con successo","Rimozione Scuderia avvenuta",JOptionPane.INFORMATION_MESSAGE);
                 } catch (SQLException e1) {
                     System.err.println(e1);

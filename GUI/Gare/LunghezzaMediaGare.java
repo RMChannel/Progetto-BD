@@ -60,14 +60,14 @@ public class LunghezzaMediaGare extends JFrame {
             Connection conn= DB.getConn();
             if(comboBox1.getSelectedIndex()==0) {
                 if(includiNazioniConUnaCheckBox.isSelected()) {
-                    rs=conn.createStatement().executeQuery("SELECT Gara.Nazione, Count(Gara.ID_Gara) as Gare, AVG(Gara.Lunghezza) as LunghezzaMedia, ID_Categoria as Categoria\n" +
-                            "from Gara\n"+
+                    rs=conn.createStatement().executeQuery("SELECT GARA.Nazione, Count(GARA.ID_GARA) as Gare, AVG(GARA.Lunghezza) as LunghezzaMedia, ID_Categoria as Categoria\n" +
+                            "from GARA\n"+
                             "GROUP BY Nazione, ID_Categoria\n" +
                             "ORDER BY Gare");
                 }
                 else {
-                    rs=conn.createStatement().executeQuery("SELECT Gara.Nazione, Count(Gara.ID_Gara) as Gare, AVG(Gara.Lunghezza) as LunghezzaMedia, ID_Categoria as Categoria\n" +
-                            "from Gara\n"+
+                    rs=conn.createStatement().executeQuery("SELECT GARA.Nazione, Count(GARA.ID_GARA) as Gare, AVG(GARA.Lunghezza) as LunghezzaMedia, ID_Categoria as Categoria\n" +
+                            "from GARA\n"+
                             "GROUP BY Nazione, ID_Categoria\n" +
                             "HAVING COUNT(ID_Categoria)>=2\n"+
                             "ORDER BY Gare");
@@ -75,14 +75,14 @@ public class LunghezzaMediaGare extends JFrame {
             }
             else {
                 if(includiNazioniConUnaCheckBox.isSelected()) {
-                    rs=conn.createStatement().executeQuery("SELECT Gara.Nazione, Count(Gara.ID_Gara) as Gare, AVG(Gara.Lunghezza) as LunghezzaMedia, ID_Categoria as Categoria\n" +
-                            "from Gara where ID_Categoria='"+comboBox1.getSelectedItem()+"'\n" +
+                    rs=conn.createStatement().executeQuery("SELECT GARA.Nazione, Count(GARA.ID_GARA) as Gare, AVG(GARA.Lunghezza) as LunghezzaMedia, ID_Categoria as Categoria\n" +
+                            "from GARA where ID_Categoria='"+comboBox1.getSelectedItem()+"'\n" +
                             "GROUP BY Nazione, ID_Categoria\n" +
                             "ORDER BY Gare");
                 }
                 else {
-                    rs=conn.createStatement().executeQuery("SELECT Gara.Nazione, Count(Gara.ID_Gara) as Gare, AVG(Gara.Lunghezza) as LunghezzaMedia, ID_Categoria as Categoria\n" +
-                            "from Gara where ID_Categoria='"+comboBox1.getSelectedItem()+"'\n" +
+                    rs=conn.createStatement().executeQuery("SELECT GARA.Nazione, Count(GARA.ID_GARA) as Gare, AVG(GARA.Lunghezza) as LunghezzaMedia, ID_Categoria as Categoria\n" +
+                            "from GARA where ID_Categoria='"+comboBox1.getSelectedItem()+"'\n" +
                             "GROUP BY Nazione, ID_Categoria\n" +
                             "HAVING COUNT(ID_Categoria)>=2\n"+
                             "ORDER BY Gare");
@@ -105,8 +105,8 @@ public class LunghezzaMediaGare extends JFrame {
         table1=new JTable(model);
         try {
             Connection conn= DB.getConn();
-            ResultSet rs=conn.createStatement().executeQuery("SELECT Gara.Nazione, Count(Gara.ID_Gara) as Gare, AVG(Gara.Lunghezza) as LunghezzaMedia, ID_Categoria as Categoria\n" +
-                    "from Gara\n" +
+            ResultSet rs=conn.createStatement().executeQuery("SELECT GARA.Nazione, Count(GARA.ID_GARA) as Gare, AVG(GARA.Lunghezza) as LunghezzaMedia, ID_Categoria as Categoria\n" +
+                    "from GARA\n" +
                     "GROUP BY Nazione, ID_Categoria\n" +
                     "ORDER BY Gare");
             while (rs.next()) {

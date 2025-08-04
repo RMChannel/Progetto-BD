@@ -30,14 +30,14 @@ public class RimuoviSponsorizzazione extends JFrame {
         setLocationRelativeTo(null);
         try {
             Connection conn= DB.getConn();
-            ResultSet rs=conn.createStatement().executeQuery("SELECT * FROM Sponsor");
+            ResultSet rs=conn.createStatement().executeQuery("SELECT * FROM SPONSOR");
             Dictionary<String,String> dic=new Hashtable<>();
             while(rs.next()){
                 dic.put(rs.getString(1),rs.getString(2));
             }
-            rs=conn.createStatement().executeQuery("SELECT * FROM Sponsorizzazione");
+            rs=conn.createStatement().executeQuery("SELECT * FROM SPONSORIZZAZIONE");
             while(rs.next()){
-                comboBox1.addItem(rs.getInt(1)+" "+rs.getString(2)+" "+dic.get(rs.getString(2)));
+                comboBox1.addItem(rs.getString(1)+" "+rs.getInt(2)+" "+rs.getString(3));
             }
             if(comboBox1.getItemCount()==0) {
                 JOptionPane.showMessageDialog(null, "Nessuna sponsorizzazione attiva","Errore Sponsorizzazione",JOptionPane.ERROR_MESSAGE);
@@ -64,30 +64,19 @@ public class RimuoviSponsorizzazione extends JFrame {
         rimuoviSponsorizzazioneButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String[] parts = comboBox1.getSelectedItem().toString().split(" ");
+                String idSponsor = parts[0];
+                int nPilota = Integer.parseInt(parts[1]);
+                String cognome = parts[2];
+                Connection conn=DB.getConn();
                 try {
-                    Connection conn= DB.getConn();
-                    ResultSet rs=conn.createStatement().executeQuery("SELECT * FROM Sponsorizzazione");
-                    Pattern pattern = Pattern.compile("^\\d+");
-                    while(rs.next()){
-                        Matcher matcher = pattern.matcher(comboBox1.getSelectedItem().toString());
-                        if(!matcher.find()) {
-                            JOptionPane.showMessageDialog(null,"Errore recupero numero pilota","Errore N Pilota",JOptionPane.ERROR_MESSAGE);
-                            return;
-                        }
-                        int n=Integer.parseInt(matcher.group());
-                        if(comboBox1.getSelectedItem().toString().contains(rs.getString(2))) {
-                            conn.createStatement().executeUpdate("delete from Sponsorizzazione where Sponsor='"+rs.getString(2)+"' && Pilota="+n);
-                            JOptionPane.showMessageDialog(null,"Rimozione Sponsorizzazione avvenuta con successo","Rimozione avvenuta",JOptionPane.INFORMATION_MESSAGE);
-                            dispose();
-                            new MenuProgramma();
-                            break;
-                        }
-                    }
-                } catch (SQLException e2) {
-                    System.err.println(e2);
-                    JOptionPane.showMessageDialog(null, "Errore nella connessione col database durante la rimozione","Error SQL Sponsorizzazione",JOptionPane.ERROR_MESSAGE);
-                    return;
+                    conn.createStatement().executeUpdate("delete from SPONSORIZZAZIONE where ID_Sponsor='"+idSponsor+"' AND Numero_Pilota="+nPilota+" AND Cognome='"+cognome+"'");
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
                 }
+                JOptionPane.showMessageDialog(null,"Rimozione Sponsorizzazione avvenuta con successo","Rimozione avvenuta",JOptionPane.INFORMATION_MESSAGE);
+                dispose();
+                new MenuProgramma();
             }
         });
     }

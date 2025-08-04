@@ -36,11 +36,7 @@ public class NoScuderiaWhereGara extends JFrame {
             String[] columns = {"Nazioni"};
             DefaultTableModel model = new DefaultTableModel(null,columns);
             Connection conn= DB.getConn();
-            ResultSet rs = conn.createStatement().executeQuery("SELECT DISTINCT G.Nazione\n" +
-                    "FROM Gara G\n" +
-                    "WHERE G.Nazione NOT IN (\n" +
-                    "    SELECT DISTINCT S.Nazione FROM Scuderia S\n" +
-                    ")");
+            ResultSet rs = conn.createStatement().executeQuery("SELECT DISTINCT G.Nazione FROM GARA G WHERE G.Nazione NOT IN (SELECT DISTINCT S.Nazione FROM SCUDERIA S)");
             while (rs.next()) {
                 model.addRow(new Object[]{rs.getString(1)});
             }

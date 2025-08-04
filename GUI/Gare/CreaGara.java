@@ -37,7 +37,7 @@ public class CreaGara extends JFrame {
         setLocationRelativeTo(null);
         try {
             Connection conn= DB.getConn();
-            ResultSet rs=conn.createStatement().executeQuery("SELECT * FROM Categoria");
+            ResultSet rs=conn.createStatement().executeQuery("SELECT * FROM CATEGORIA");
             while (rs.next()) {
                 categoriaComboBox.addItem(rs.getString(1));
             }
@@ -87,18 +87,18 @@ public class CreaGara extends JFrame {
                 }
                 try {String codice="";
                     Connection conn=DB.getConn();
-                    ResultSet rs=conn.createStatement().executeQuery("SELECT * FROM Gara where ID_Categoria='"+categoriaComboBox.getSelectedItem()+"'");
+                    ResultSet rs=conn.createStatement().executeQuery("SELECT * FROM GARA where ID_Categoria='"+categoriaComboBox.getSelectedItem()+"'");
                     while (rs.next()) {
-                        codice=rs.getString(4);
+                        codice=rs.getString(1);
                     }
                     String[] parts=codice.split("-");
                     String newCodice=parts[0]+"-"+parts[1]+"-"+(Integer.parseInt(parts[2])+1);
                     if(pilotaComboBox.getSelectedItem().equals("Nessun vincitore")) {
-                        conn.createStatement().executeUpdate("insert into Gara (Data, Nazione, Lunghezza, ID_Gara, Numero_Giri, Numero_Pilota_Vincitore, Cognome_Pilota_Vincitore, ID_Categoria, Nome_Circuito) VALUES ('"+date+"', '"+nazioneGaraTextField.getText()+"', '"+lunghezzaGiro+"', '"+newCodice+"', '"+nGiri+"', NULL, NULL, '"+categoriaComboBox.getSelectedItem()+"', '"+nomeCircuitoTextField.getText()+"')");
+                        conn.createStatement().executeUpdate("insert into GARA (Data, Nazione, Lunghezza, ID_Gara, Numero_Giri, Numero_Pilota_Vincitore, Cognome_Vincitore, ID_Categoria, Nome_Circuito) VALUES ('"+date+"', '"+nazioneGaraTextField.getText()+"', '"+lunghezzaGiro+"', '"+newCodice+"', '"+nGiri+"', NULL, NULL, '"+categoriaComboBox.getSelectedItem()+"', '"+nomeCircuitoTextField.getText()+"')");
                     }
                     else {
                         parts=pilotaComboBox.getSelectedItem().toString().split(" ");
-                        conn.createStatement().executeUpdate("insert into Gara (Data, Nazione, Lunghezza, ID_Gara, Numero_Giri, Numero_Pilota_Vincitore, Cognome_Pilota_Vincitore, ID_Categoria, Nome_Circuito) VALUES ('"+date+"', '"+nazioneGaraTextField.getText()+"', '"+lunghezzaGiro+"', '"+newCodice+"', '"+nGiri+"', '"+parts[0]+"', '"+parts[1]+"', '"+categoriaComboBox.getSelectedItem()+"', '"+nomeCircuitoTextField.getText()+"')");
+                        conn.createStatement().executeUpdate("insert into GARA (Data, Nazione, Lunghezza, ID_Gara, Numero_Giri, Numero_Pilota_Vincitore, Cognome_Vincitore, ID_Categoria, Nome_Circuito) VALUES ('"+date+"', '"+nazioneGaraTextField.getText()+"', '"+lunghezzaGiro+"', '"+newCodice+"', '"+nGiri+"', '"+parts[0]+"', '"+parts[1]+"', '"+categoriaComboBox.getSelectedItem()+"', '"+nomeCircuitoTextField.getText()+"')");
                     }
                     JOptionPane.showMessageDialog(null,"Gara creata con successo","Gara creata",JOptionPane.INFORMATION_MESSAGE);
                     dispose();
@@ -127,9 +127,9 @@ public class CreaGara extends JFrame {
                     "    p.Numero_Pilota,\n" +
                     "    p.Cognome,\n" +
                     "    s.ID_Categoria\n" +
-                    "FROM Affiliazione a\n" +
-                    "JOIN Scuderia s ON a.Scuderia = s.Nome AND s.ID_Categoria='"+categoriaComboBox.getSelectedItem()+"'\n" +
-                    "JOIN Pilota p ON a.Pilota = p.Numero_Pilota AND a.Cognome_Pilota=p.Cognome;\n");
+                    "FROM AFFILIAZIONE a\n" +
+                    "JOIN SCUDERIA s ON a.Nome_Scuderia = s.Nome_Scuderia AND s.ID_Categoria='"+categoriaComboBox.getSelectedItem()+"'\n" +
+                    "JOIN PILOTA p ON a.Numero_Pilota = p.Numero_Pilota AND a.Cognome=p.Cognome;\n");
             while (rs.next()) {
                 pilotaComboBox.addItem(rs.getInt(1)+" "+rs.getString(2));
             }

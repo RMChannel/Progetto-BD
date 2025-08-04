@@ -23,7 +23,7 @@ public class RimuoviSponsor extends JFrame {
         setLocationRelativeTo(null);
         try {
             Connection conn= DB.getConn();
-            ResultSet rs=conn.createStatement().executeQuery("select * from Sponsor");
+            ResultSet rs=conn.createStatement().executeQuery("select * from SPONSOR");
             while(rs.next()){
                 comboBox1.addItem(rs.getString(1)+" "+rs.getString(2));
             }
@@ -52,12 +52,12 @@ public class RimuoviSponsor extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     Connection conn= DB.getConn();
-                    ResultSet rs=conn.createStatement().executeQuery("select * from Sponsor");
+                    ResultSet rs=conn.createStatement().executeQuery("select * from SPONSOR");
                     while(rs.next()){
                         String codice=rs.getString(1);
                         if((codice+" "+rs.getString(2)).equals(comboBox1.getSelectedItem().toString())){
-                            conn.createStatement().executeUpdate("delete from Sponsorizzazione where Sponsor='"+codice+"'");
-                            conn.createStatement().executeUpdate("delete from Sponsor where ID_Sponsor='"+codice+"'");
+                            conn.createStatement().executeUpdate("delete from SPONSORIZZAZIONE where ID_Sponsor='"+codice+"'");
+                            conn.createStatement().executeUpdate("delete from SPONSOR where ID_Sponsor='"+codice+"'");
                             JOptionPane.showMessageDialog(null,"Sponsor eliminato con successo","Sponsor Eliminato",JOptionPane.INFORMATION_MESSAGE);
                             dispose();
                             new MenuProgramma();

@@ -38,9 +38,9 @@ public class VisualizzaCategorie extends JFrame {
         table1=new JTable(tableModel);
         try {
             Connection conn= DB.getConn();
-            ResultSet rs=conn.createStatement().executeQuery("select * from Categoria");
+            ResultSet rs=conn.createStatement().executeQuery("select * from CATEGORIA");
             while(rs.next()){
-                tableModel.addRow(new Object[]{rs.getString(1),rs.getString(2),rs.getString(3)});
+                tableModel.addRow(new Object[]{rs.getString(1),rs.getString(2),rs.getString(2)});
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());

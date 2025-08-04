@@ -23,9 +23,9 @@ public class RimuoviGara extends JFrame {
         setLocationRelativeTo(null);
         try {
             Connection conn= DB.getConn();
-            ResultSet rs=conn.createStatement().executeQuery("select * from Gara");
+            ResultSet rs=conn.createStatement().executeQuery("select * from GARA");
             while(rs.next()){
-                gareComboBox.addItem(rs.getString(4));
+                gareComboBox.addItem(rs.getString(1));
             }
         } catch (SQLException e) {
             System.err.println(e);
@@ -46,7 +46,7 @@ public class RimuoviGara extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    DB.getConn().createStatement().executeUpdate("delete from Gara where ID_Gara='"+gareComboBox.getSelectedItem()+"'");
+                    DB.getConn().createStatement().executeUpdate("delete from GARA where ID_Gara='"+gareComboBox.getSelectedItem()+"'");
                     JOptionPane.showMessageDialog(null,"Rimozione Gara avvenuta con successo","Rimozione avvenuta",JOptionPane.INFORMATION_MESSAGE);
                     dispose();
                     new MenuProgramma();

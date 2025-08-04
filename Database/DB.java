@@ -17,7 +17,7 @@ public class DB {
     public static void setConnection()
     {
         String driver ="com.mysql.cj.jdbc.Driver";
-        String username = "ProjectDB_silveraway";
+        String username = "root";
         String password;
         try {
             File file = new File("password.txt");
@@ -27,7 +27,7 @@ public class DB {
             System.out.println("Password not found");
             password = "";
         }
-        String url ="jdbc:mysql://ProjectDB_silveraway:"+password+"@xq5qx.h.filess.io:3307/ProjectDB_silveraway";
+        String url ="jdbc:mysql://localhost:32768/ProjectBD";
 
         try {
         	Class.forName(driver);
@@ -36,6 +36,7 @@ public class DB {
         }catch (ClassNotFoundException e) {
 			throw new DriverNotFound();
 		} catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }

@@ -89,53 +89,53 @@ public class VisualizzaGare extends JFrame {
             Connection conn=DB.getConn();
             ResultSet rs = null;
             if(nazioneComboBox.getSelectedIndex()==0 && categoriaComboBox.getSelectedIndex()==0) {
-                if(numeroGiriTextField.getText().isEmpty() && lunghezzaCircuitoTextField.getText().isEmpty()) rs=queryAuto("SELECT Nome_Circuito, Lunghezza*Numero_Giri as Totale FROM Gara WHERE lunghezza * Numero_Giri = (SELECT MAX(lunghezza * Numero_Giri) FROM Gara)","SELECT Nome_Circuito, Lunghezza*Numero_Giri as Totale FROM Gara WHERE lunghezza * Numero_Giri = (SELECT MIN(lunghezza * Numero_Giri) FROM Gara)","select * from Gara order by Data",conn);
+                if(numeroGiriTextField.getText().isEmpty() && lunghezzaCircuitoTextField.getText().isEmpty()) rs=queryAuto("SELECT Nome_Circuito, Lunghezza*Numero_Giri as Totale FROM GARA WHERE lunghezza * Numero_Giri = (SELECT MAX(lunghezza * Numero_Giri) FROM GARA)","SELECT Nome_Circuito, Lunghezza*Numero_Giri as Totale FROM GARA WHERE lunghezza * Numero_Giri = (SELECT MIN(lunghezza * Numero_Giri) FROM GARA)","select * from GARA order by Data",conn);
                 else {
                     rs = queryAuto(
-                            "SELECT Nome_Circuito, Lunghezza * Numero_Giri AS Totale FROM Gara WHERE Lunghezza * Numero_Giri = (SELECT MAX(Lunghezza * Numero_Giri) FROM Gara WHERE Lunghezza >= " + lunghezzaCircuito + " OR Numero_Giri >= " + nGiri + ") AND (Lunghezza >= " + lunghezzaCircuito + " OR Numero_Giri >= " + nGiri + ")",
-                            "SELECT Nome_Circuito, Lunghezza * Numero_Giri AS Totale FROM Gara WHERE Lunghezza * Numero_Giri = (SELECT MIN(Lunghezza * Numero_Giri) FROM Gara WHERE Lunghezza >= " + lunghezzaCircuito + " OR Numero_Giri >= " + nGiri + ") AND (Lunghezza >= " + lunghezzaCircuito + " OR Numero_Giri >= " + nGiri + ")",
-                            "SELECT * FROM Gara WHERE Lunghezza >= " + lunghezzaCircuito + " OR Numero_Giri >= " + nGiri + " ORDER BY Data",
+                            "SELECT Nome_Circuito, Lunghezza * Numero_Giri AS Totale FROM GARA WHERE Lunghezza * Numero_Giri = (SELECT MAX(Lunghezza * Numero_Giri) FROM GARA WHERE Lunghezza >= " + lunghezzaCircuito + " AND Numero_Giri >= " + nGiri + ") AND (Lunghezza >= " + lunghezzaCircuito + " AND Numero_Giri >= " + nGiri + ")",
+                            "SELECT Nome_Circuito, Lunghezza * Numero_Giri AS Totale FROM GARA WHERE Lunghezza * Numero_Giri = (SELECT MIN(Lunghezza * Numero_Giri) FROM GARA WHERE Lunghezza >= " + lunghezzaCircuito + " AND Numero_Giri >= " + nGiri + ") AND (Lunghezza >= " + lunghezzaCircuito + " AND Numero_Giri >= " + nGiri + ")",
+                            "SELECT * FROM GARA WHERE Lunghezza >= " + lunghezzaCircuito + " AND Numero_Giri >= " + nGiri + " ORDER BY Data",
                             conn
                     );
                 }
             }
             else if(!(nazioneComboBox.getSelectedIndex()==0) && categoriaComboBox.getSelectedIndex()==0) {
-                if(numeroGiriTextField.getText().isEmpty() && lunghezzaCircuitoTextField.getText().isEmpty()) rs=queryAuto("SELECT Nome_Circuito, lunghezza * Numero_Giri AS Totale FROM Gara WHERE Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (lunghezza * Numero_Giri) = (SELECT MAX(lunghezza * Numero_Giri) FROM Gara WHERE Nazione = '" + nazioneComboBox.getSelectedItem() + "')", "SELECT Nome_Circuito, lunghezza * Numero_Giri AS Totale FROM Gara WHERE Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (lunghezza * Numero_Giri) = (SELECT MIN(lunghezza * Numero_Giri) FROM Gara WHERE Nazione = '" + nazioneComboBox.getSelectedItem() + "')", "SELECT * FROM Gara WHERE Nazione = '" + nazioneComboBox.getSelectedItem() + "' ORDER BY Data", conn);
+                if(numeroGiriTextField.getText().isEmpty() && lunghezzaCircuitoTextField.getText().isEmpty()) rs=queryAuto("SELECT Nome_Circuito, lunghezza * Numero_Giri AS Totale FROM GARA WHERE Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (lunghezza * Numero_Giri) = (SELECT MAX(lunghezza * Numero_Giri) FROM GARA WHERE Nazione = '" + nazioneComboBox.getSelectedItem() + "')", "SELECT Nome_Circuito, lunghezza * Numero_Giri AS Totale FROM GARA WHERE Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (lunghezza * Numero_Giri) = (SELECT MIN(lunghezza * Numero_Giri) FROM GARA WHERE Nazione = '" + nazioneComboBox.getSelectedItem() + "')", "SELECT * FROM GARA WHERE Nazione = '" + nazioneComboBox.getSelectedItem() + "' ORDER BY Data", conn);
                 else {
                     rs = queryAuto(
-                            "SELECT Nome_Circuito, Lunghezza * Numero_Giri AS Totale FROM Gara WHERE Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " OR Numero_Giri >= " + nGiri + ") AND Lunghezza * Numero_Giri = (SELECT MAX(Lunghezza * Numero_Giri) FROM Gara WHERE Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " OR Numero_Giri >= " + nGiri + "))",
-                            "SELECT Nome_Circuito, Lunghezza * Numero_Giri AS Totale FROM Gara WHERE Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " OR Numero_Giri >= " + nGiri + ") AND Lunghezza * Numero_Giri = (SELECT MIN(Lunghezza * Numero_Giri) FROM Gara WHERE Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " OR Numero_Giri >= " + nGiri + "))",
-                            "SELECT * FROM Gara WHERE Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " OR Numero_Giri >= " + nGiri + ") ORDER BY Data",
+                            "SELECT Nome_Circuito, Lunghezza * Numero_Giri AS Totale FROM GARA WHERE Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " AND Numero_Giri >= " + nGiri + ") AND Lunghezza * Numero_Giri = (SELECT MAX(Lunghezza * Numero_Giri) FROM GARA WHERE Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " AND Numero_Giri >= " + nGiri + "))",
+                            "SELECT Nome_Circuito, Lunghezza * Numero_Giri AS Totale FROM GARA WHERE Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " AND Numero_Giri >= " + nGiri + ") AND Lunghezza * Numero_Giri = (SELECT MIN(Lunghezza * Numero_Giri) FROM GARA WHERE Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " AND Numero_Giri >= " + nGiri + "))",
+                            "SELECT * FROM GARA WHERE Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " AND Numero_Giri >= " + nGiri + ") ORDER BY Data",
                             conn
                     );
                 }
             }
             else if(nazioneComboBox.getSelectedIndex()==0 && !(categoriaComboBox.getSelectedIndex()==0)) {
-                if(numeroGiriTextField.getText().isEmpty() && lunghezzaCircuitoTextField.getText().isEmpty()) rs=queryAuto("SELECT Nome_Circuito, lunghezza * Numero_Giri AS Totale FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND (lunghezza * Numero_Giri) = (SELECT MAX(lunghezza * Numero_Giri) FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "')", "SELECT Nome_Circuito, lunghezza * Numero_Giri AS Totale FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND (lunghezza * Numero_Giri) = (SELECT MIN(lunghezza * Numero_Giri) FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "')", "SELECT * FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' ORDER BY Data", conn);
+                if(numeroGiriTextField.getText().isEmpty() && lunghezzaCircuitoTextField.getText().isEmpty()) rs=queryAuto("SELECT Nome_Circuito, lunghezza * Numero_Giri AS Totale FROM GARA WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND (lunghezza * Numero_Giri) = (SELECT MAX(lunghezza * Numero_Giri) FROM GARA WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "')", "SELECT Nome_Circuito, lunghezza * Numero_Giri AS Totale FROM GARA WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND (lunghezza * Numero_Giri) = (SELECT MIN(lunghezza * Numero_Giri) FROM GARA WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "')", "SELECT * FROM GARA WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' ORDER BY Data", conn);
                 else {
                     rs = queryAuto(
-                            "SELECT Nome_Circuito, Lunghezza * Numero_Giri AS Totale FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " OR Numero_Giri >= " + nGiri + ") AND Lunghezza * Numero_Giri = (SELECT MAX(Lunghezza * Numero_Giri) FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " OR Numero_Giri >= " + nGiri + "))",
-                            "SELECT Nome_Circuito, Lunghezza * Numero_Giri AS Totale FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " OR Numero_Giri >= " + nGiri + ") AND Lunghezza * Numero_Giri = (SELECT MIN(Lunghezza * Numero_Giri) FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " OR Numero_Giri >= " + nGiri + "))",
-                            "SELECT * FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " OR Numero_Giri >= " + nGiri + ") ORDER BY Data",
+                            "SELECT Nome_Circuito, Lunghezza * Numero_Giri AS Totale FROM GARA WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " AND Numero_Giri >= " + nGiri + ") AND Lunghezza * Numero_Giri = (SELECT MAX(Lunghezza * Numero_Giri) FROM GARA WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " AND Numero_Giri >= " + nGiri + "))",
+                            "SELECT Nome_Circuito, Lunghezza * Numero_Giri AS Totale FROM GARA WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " AND Numero_Giri >= " + nGiri + ") AND Lunghezza * Numero_Giri = (SELECT MIN(Lunghezza * Numero_Giri) FROM GARA WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " AND Numero_Giri >= " + nGiri + "))",
+                            "SELECT * FROM GARA WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " AND Numero_Giri >= " + nGiri + ") ORDER BY Data",
                             conn
                     );
                 }
             }
             else if(!(nazioneComboBox.getSelectedIndex()==0) && !(categoriaComboBox.getSelectedIndex()==0)) {
-                if(numeroGiriTextField.getText().isEmpty() && lunghezzaCircuitoTextField.getText().isEmpty()) rs=queryAuto("SELECT Nome_Circuito, lunghezza * Numero_Giri AS Totale FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (lunghezza * Numero_Giri) = (SELECT MAX(lunghezza * Numero_Giri) FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND Nazione = '" + nazioneComboBox.getSelectedItem() + "')", "SELECT Nome_Circuito, lunghezza * Numero_Giri AS Totale FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (lunghezza * Numero_Giri) = (SELECT MIN(lunghezza * Numero_Giri) FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND Nazione = '" + nazioneComboBox.getSelectedItem() + "')", "SELECT * FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND Nazione = '" + nazioneComboBox.getSelectedItem() + "' ORDER BY Data", conn);
+                if(numeroGiriTextField.getText().isEmpty() && lunghezzaCircuitoTextField.getText().isEmpty()) rs=queryAuto("SELECT Nome_Circuito, lunghezza * Numero_Giri AS Totale FROM GARA WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (lunghezza * Numero_Giri) = (SELECT MAX(lunghezza * Numero_Giri) FROM GARA WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND Nazione = '" + nazioneComboBox.getSelectedItem() + "')", "SELECT Nome_Circuito, lunghezza * Numero_Giri AS Totale FROM GARA WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (lunghezza * Numero_Giri) = (SELECT MIN(lunghezza * Numero_Giri) FROM GARA WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND Nazione = '" + nazioneComboBox.getSelectedItem() + "')", "SELECT * FROM GARA WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND Nazione = '" + nazioneComboBox.getSelectedItem() + "' ORDER BY Data", conn);
                 else {
                     rs = queryAuto(
-                            "SELECT Nome_Circuito, Lunghezza * Numero_Giri AS Totale FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " OR Numero_Giri >= " + nGiri + ") AND Lunghezza * Numero_Giri = (SELECT MAX(Lunghezza * Numero_Giri) FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " OR Numero_Giri >= " + nGiri + "))",
-                            "SELECT Nome_Circuito, Lunghezza * Numero_Giri AS Totale FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " OR Numero_Giri >= " + nGiri + ") AND Lunghezza * Numero_Giri = (SELECT MIN(Lunghezza * Numero_Giri) FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " OR Numero_Giri >= " + nGiri + "))",
-                            "SELECT * FROM Gara WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " OR Numero_Giri >= " + nGiri + ") ORDER BY Data",
+                            "SELECT Nome_Circuito, Lunghezza * Numero_Giri AS Totale FROM GARA WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " AND Numero_Giri >= " + nGiri + ") AND Lunghezza * Numero_Giri = (SELECT MAX(Lunghezza * Numero_Giri) FROM GARA WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " AND Numero_Giri >= " + nGiri + "))",
+                            "SELECT Nome_Circuito, Lunghezza * Numero_Giri AS Totale FROM GARA WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " AND Numero_Giri >= " + nGiri + ") AND Lunghezza * Numero_Giri = (SELECT MIN(Lunghezza * Numero_Giri) FROM GARA WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " AND Numero_Giri >= " + nGiri + "))",
+                            "SELECT * FROM GARA WHERE ID_Categoria = '" + categoriaComboBox.getSelectedItem() + "' AND Nazione = '" + nazioneComboBox.getSelectedItem() + "' AND (Lunghezza >= " + lunghezzaCircuito + " AND Numero_Giri >= " + nGiri + ") ORDER BY Data",
                             conn
                     );
                 }
             }
             while(rs.next()){
                 String[] temp;
-                if(rs.getString(7)==null) temp= new String[]{rs.getString(4), rs.getString(9), rs.getString(1), rs.getString(2), String.valueOf(rs.getFloat(3)), String.valueOf(rs.getInt(5)), rs.getString(8), "Non ancora svolta"};
-                else temp= new String[]{rs.getString(4), rs.getString(9), rs.getString(1), rs.getString(2), String.valueOf(rs.getFloat(3)), String.valueOf(rs.getInt(5)), rs.getString(8), rs.getInt(6) + " " + rs.getString(7)};
+                if(rs.getString(7)==null) temp= new String[]{rs.getString(4), rs.getString(9), rs.getString(1), rs.getString(2), String.valueOf(rs.getFloat(6)), String.valueOf(rs.getInt(5)), rs.getString(8), "Non ancora svolta"};
+                else temp= new String[]{rs.getString(4), rs.getString(9), rs.getString(1), rs.getString(2), String.valueOf(rs.getFloat(6)), String.valueOf(rs.getInt(5)), rs.getString(8), rs.getInt(6) + " " + rs.getString(7)};
                 model.addRow(temp);
             }
             lunghezzaMaxLabel.setText("Lunghezza gara massima: " + lunghezzaMax + "km sul circuito: "+circuitoMax);
@@ -170,20 +170,20 @@ public class VisualizzaGare extends JFrame {
         categoriaComboBox.addItem("Tutte");
         try {
             Connection conn= DB.getConn();
-            ResultSet rs=conn.createStatement().executeQuery("SELECT Nome_Circuito, Lunghezza*Numero_Giri as Totale FROM Gara WHERE lunghezza * Numero_Giri = (SELECT MAX(lunghezza * Numero_Giri) FROM Gara)");
+            ResultSet rs=conn.createStatement().executeQuery("SELECT Nome_Circuito, Lunghezza*Numero_Giri as Totale FROM GARA WHERE lunghezza * Numero_Giri = (SELECT MAX(lunghezza * Numero_Giri) FROM GARA)");
             rs.next();
             circuitoMax=rs.getString(1);
             lunghezzaMax =rs.getFloat(2);
-            rs=conn.createStatement().executeQuery("SELECT Nome_Circuito, Lunghezza*Numero_Giri as Totale FROM Gara WHERE lunghezza * Numero_Giri = (SELECT MIN(lunghezza * Numero_Giri) FROM Gara)");
+            rs=conn.createStatement().executeQuery("SELECT Nome_Circuito, Lunghezza*Numero_Giri as Totale FROM GARA WHERE lunghezza * Numero_Giri = (SELECT MIN(lunghezza * Numero_Giri) FROM GARA)");
             rs.next();
             circuitoMin=rs.getString(1);
             lunghezzaMin =rs.getFloat(2);
-            rs=conn.createStatement().executeQuery("select * from Gara ORDER BY Data");
+            rs=conn.createStatement().executeQuery("select * from GARA ORDER BY Data");
             ArrayList<String> nazioni=new ArrayList<>();
             while(rs.next()){
                 String[] temp;
-                if(rs.getString(7)==null) temp= new String[]{rs.getString(4), rs.getString(9), rs.getString(1), rs.getString(2), String.valueOf(rs.getFloat(3)), String.valueOf(rs.getInt(5)), rs.getString(8), "Non ancora svolta"};
-                else temp= new String[]{rs.getString(4), rs.getString(9), rs.getString(1), rs.getString(2), String.valueOf(rs.getFloat(3)), String.valueOf(rs.getInt(5)), rs.getString(8), rs.getInt(6) + " " + rs.getString(7)};
+                if(rs.getString(7)==null) temp= new String[]{rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(2), String.valueOf(rs.getFloat(6)), String.valueOf(rs.getInt(5)), rs.getString(9), "Non ancora svolta"};
+                else temp= new String[]{rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(2), String.valueOf(rs.getFloat(6)), String.valueOf(rs.getInt(5)), rs.getString(9), rs.getInt(7) + " " + rs.getString(8)};
                 if(!nazioni.contains(rs.getString(2))) nazioni.add(rs.getString(2));
                 model.addRow(temp);
             }
@@ -191,7 +191,7 @@ public class VisualizzaGare extends JFrame {
             for(String name:nazioni){
                 nazioneComboBox.addItem(name);
             }
-            rs=conn.createStatement().executeQuery("select * from Categoria");
+            rs=conn.createStatement().executeQuery("select * from CATEGORIA");
             while(rs.next()){
                 categoriaComboBox.addItem(rs.getString(1));
             }

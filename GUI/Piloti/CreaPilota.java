@@ -51,7 +51,7 @@ public class CreaPilota extends JFrame {
                     return;
                 }
                 try {
-                    DB.getConn().createStatement().executeUpdate("INSERT INTO Pilota (Numero_pilota, Cognome, Numero_Campionati) VALUES ("+String.valueOf(numeroPilota)+",'"+cognomePilotaTextField.getText()+"',"+String.valueOf(nCampionatiVinti)+");");
+                    DB.getConn().createStatement().executeUpdate("INSERT INTO PILOTA (Numero_pilota, Cognome, Numero_Campionati) VALUES ("+String.valueOf(numeroPilota)+",'"+cognomePilotaTextField.getText()+"',"+String.valueOf(nCampionatiVinti)+");");
                 } catch (SQLException e2) {
                     System.err.println(e2);
                     JOptionPane.showMessageDialog(null,"Esiste già un pilota con i parametri: "+String.valueOf(numeroPilota)+" "+cognomePilotaTextField.getText(),"Errore pilota già esistente",JOptionPane.ERROR_MESSAGE);
