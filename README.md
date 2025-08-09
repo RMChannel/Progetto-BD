@@ -73,5 +73,20 @@ Ogni query è documentata e testata attraverso l’applicazione.
 
 ---
 
+## Grafici del progetto
+
+**Schema tradotto**
+![Schema ER 1](img/schema1.jpg)
+
+**Schema ER**
+![Schema ER 2](img/schema2.png)
+
+**Schema logico**
+
+![Schema ER 3](img/schema3.png)
+
+---
+
 ## Autori
-- **Roberto Cito & Aleksandre Chikviladze** -
+- **Roberto Cito**
+- **Aleksandre Chikviladze**
